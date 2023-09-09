@@ -42,15 +42,13 @@ class Solution {
             } else {
                 // System.out.println("start " + i + " " + j + " " + sum);
 
-                while(i < j && (sum >= k || nums[i] <= 0 || (i > 0 && nsl[i - 1] < j))) {
+                while(i < j && (sum >= k || (i > 0 && nsl[i - 1] < j))) {
                     if (sum >= k) {
                         // System.out.println(i + " " + j);
                         ans = Math.min(ans, j - i);
                         i++;
                     } else {
-                        if (nums[i] <= 0) {
-                            i++;
-                        } else if (i > 0 && nsl[i-1] < j) {
+                       if (i > 0 && nsl[i-1] < j) {
                             i = nsl[i-1] + 1;
                         }
                     }
