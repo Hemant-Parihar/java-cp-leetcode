@@ -46,7 +46,7 @@ class Solution {
                 long total = (long)boxes[k][i] * (long)(idx - used_idx);
                 long sum = prefixSum[idx + 1] - prefixSum[used_idx + 1];
                 sub_ans = (sub_ans + (total - sum));
-                System.out.println(idx + " " + used_idx + " " + total + " " + sum + " " + sub_ans);
+                // System.out.println(idx + " " + used_idx + " " + total + " " + sum + " " + sub_ans);
                 used_idx = idx;
             }
 
