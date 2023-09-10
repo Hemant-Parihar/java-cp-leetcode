@@ -9,11 +9,11 @@
  * }
  */
 class Solution {
-    ListNode head = null;
     public ListNode mergeKLists(ListNode[] lists) {
         int k = lists.length;
         ListNode[] ptrArr = new ListNode[k];
         ListNode ans = null;
+        ListNode head = null;
         for(int i = 0; i < k; i++) {
             ptrArr[i] = lists[i];
         }
