@@ -17,13 +17,6 @@ class Solution {
         for(int i = 0; i < k; i++) {
             ptrArr[i] = lists[i];
         }
-        solve(ptrArr, lists, ans);
-        return head;
-    }
-
-    void solve(ListNode[] ptrArr, ListNode[] lists, ListNode ans) {
-        int k = lists.length;
-
         while(true) {
             int min = Integer.MAX_VALUE;
             int min_index = -1;
@@ -33,16 +26,16 @@ class Solution {
                     min_index = i;
                 }
             }
-            if (min_index == -1) return;
+            if (min_index == -1) break;
             if (ans == null) {
                 head = ptrArr[min_index];
                 ans = head;
-                ptrArr[min_index] = ptrArr[min_index].next;
             } else {
                 ans.next = ptrArr[min_index];
                 ans = ptrArr[min_index];
-                ptrArr[min_index] = ptrArr[min_index].next;
             }
+            ptrArr[min_index] = ptrArr[min_index].next;
         }
+        return head;
     }
 }
