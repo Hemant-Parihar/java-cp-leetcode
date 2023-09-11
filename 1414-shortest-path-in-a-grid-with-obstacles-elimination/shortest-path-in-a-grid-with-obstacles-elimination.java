@@ -9,7 +9,7 @@ class Solution {
         Queue<List<Integer>> queue = new LinkedList<>();
 
         queue.add(new ArrayList<>(List.of(0, 0, K)));
-        visited[0][0][K] = 0;
+        visited[0][0][K] = -1;
         int steps = -1;
 
         while(!queue.isEmpty()) {
@@ -33,28 +33,28 @@ class Solution {
                 }
 
                 if (i - 1 >= 0) {
-                    if (visited[i-1][j][k] == 0 && !(i - 1 == 0 && j == 0)) {
+                    if (visited[i-1][j][k] == 0) {
                         visited[i-1][j][k] = steps;
                         queue.add(new ArrayList<>(List.of(i - 1, j, k)));
                     }
                 }
 
                 if (j - 1 >= 0) {
-                    if (visited[i][j-1][k] == 0 && !(i == 0 && j - 1 == 0)) {
+                    if (visited[i][j-1][k] == 0) {
                         visited[i][j-1][k] = steps;
                         queue.add(new ArrayList<>(List.of(i, j - 1, k)));
                     }
                 }
 
                 if (i + 1 < m) {
-                    if (visited[i + 1][j][k] == 0 && !(i + 1 == 0 && j == 0)) {
+                    if (visited[i + 1][j][k] == 0) {
                         visited[i + 1][j][k] = steps;
                         queue.add(new ArrayList<>(List.of(i + 1, j, k)));
                     }
                 }
 
                 if (j + 1 < n) {
-                    if (visited[i][j + 1][k] == 0 && !(i == 0 && j + 1 == 0)) {
+                    if (visited[i][j + 1][k] == 0) {
                         visited[i][j + 1][k] = steps;
                         queue.add(new ArrayList<>(List.of(i, j + 1, k)));
                     }
