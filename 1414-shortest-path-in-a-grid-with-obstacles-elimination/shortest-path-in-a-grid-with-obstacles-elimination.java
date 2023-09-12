@@ -25,7 +25,7 @@ class Solution {
                 int k = arr[2];
 
                 if (i == m - 1 && j == n - 1) {
-                    print(visited);
+                    // print(visited);
                     return steps;
                 }
 
@@ -67,16 +67,5 @@ class Solution {
         }
 
         return -1;
-    }
-
-    void print(int[][] visited) {
-        int m = visited.length;
-        int n = visited[0].length;
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                System.out.print(visited[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
 }
