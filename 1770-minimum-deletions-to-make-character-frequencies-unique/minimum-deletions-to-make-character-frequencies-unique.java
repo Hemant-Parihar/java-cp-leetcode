@@ -9,7 +9,6 @@ class Solution {
         Collections.sort(list, Collections.reverseOrder());
         int ans = 0;
         int last = list.get(0);
-        // System.out.println(list);
         for(int i = 1; i < list.size(); i++) {
             if (list.get(i) >= last) {
                 if (last == 1) {
