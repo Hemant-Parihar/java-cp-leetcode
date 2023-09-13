@@ -2,8 +2,6 @@ class Solution {
     public int minimumObstacles(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-
-        // System.out.println(m + " " + n);
         
         if (m == 1 && n == 1) return 0;
 
@@ -58,12 +56,6 @@ class Solution {
                 }
             }
         }
-        // for(int i = 0; i < m; i++) {
-        //     for(int j = 0; j < n; j++) {
-        //         System.out.print(visited[i][j] + " ");
-        //     }
-        //     System.out.println();
-        // }
 
         return visited[m-1][n-1];
         
