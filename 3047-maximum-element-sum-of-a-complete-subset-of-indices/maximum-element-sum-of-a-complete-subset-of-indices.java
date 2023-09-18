@@ -10,13 +10,11 @@ class Solution {
                 int val = (i + 1) * (j + 1);
                 int sq_val = (int) Math.sqrt(val);
                 if (sq_val * sq_val == val) {
-                    // System.out.println( (i + 1) + " " + (j + 1));
                     temp_ans += nums.get(j);
                 }
                 j++;
             }
             ans = Math.max(ans, temp_ans);
-            // System.out.println(temp_ans);
         }
 
         return ans;
