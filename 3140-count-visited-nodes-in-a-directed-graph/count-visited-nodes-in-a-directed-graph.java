@@ -5,8 +5,7 @@ class Solution {
 
         for(int i = 0; i < n; i++) {
             if (ans[i] == 0) {
-                boolean[] visited = new boolean[n];
-                int cycleNode = findCycle(i, edges, visited, ans);
+                int cycleNode = findCycle(i, edges, ans);
                 if (ans[cycleNode] != 0) {
                     reachCycle(i, edges, ans);
                 } else {
@@ -25,10 +24,12 @@ class Solution {
         return ans;
     }
     
-    int findCycle(int node, List<Integer> edges, boolean[] visited, int[] ans) {
-        if (visited[node] == true || ans[node] != 0) return node;
-        visited[node] = true;
-        return findCycle(edges.get(node), edges, visited, ans);
+    int findCycle(int node, List<Integer> edges, int[] ans) {
+        if (ans[node] != 0) return node;
+        ans[node] = -1;
+        int val = findCycle(edges.get(node), edges, ans);
+        ans[node] = 0;
+        return val;
     }
 
     int dfs2(int node, List<Integer> edges, HashSet<Integer> visitedSet) {
@@ -41,6 +42,4 @@ class Solution {
         if (ans[node] != 0) return ans[node];
         return ans[node] = 1 + reachCycle(edges.get(node), edges, ans);
     }
-    
-    
 }
