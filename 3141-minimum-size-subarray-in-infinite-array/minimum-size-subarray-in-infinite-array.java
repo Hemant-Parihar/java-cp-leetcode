@@ -11,10 +11,9 @@ class Solution {
         
         int i = 0;
         int j = 0;
-        while(sum + temp_sum < target) {
-            sum += temp_sum;
-            j += n;
-        }
+        int val = (int)(target / temp_sum);
+        sum += val * temp_sum;
+        j += val * n;
         int temp = j;
         
         while(j < temp + 2* n) {
@@ -28,7 +27,6 @@ class Solution {
                 sum += nums[j % n];
                 j++;
             }
-            // System.out.println(j + " " + i + " " + sum);
         }
         return ans==Integer.MAX_VALUE ? -1 : ans;
     }
