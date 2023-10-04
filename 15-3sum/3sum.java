@@ -3,7 +3,7 @@ class Solution {
         int n = nums.length;
         Arrays.sort(nums);
         HashMap<Integer, Integer> map = new HashMap<>();
-        HashSet<List<Integer>> set = new HashSet<>();
+        List<List<Integer>> ansList = new ArrayList<>();
 
         for(int i = 0; i < n; i++) {
             map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
@@ -12,9 +12,9 @@ class Solution {
         int prev_i = Integer.MIN_VALUE;
 
         for(int i = 0; i < n; i++) {
-            // if (prev_i == nums[i]) {
-            //     continue;
-            // }
+            if (prev_i == nums[i]) {
+                continue;
+            }
 
             if (nums[i] > 0) {
                 break;
@@ -23,10 +23,10 @@ class Solution {
             int prev_j = Integer.MIN_VALUE;
 
             for(int j = i + 1; j < n; j++) {
-                // if (prev_j == nums[j]) {
-                //     continue;
-                // }
-                
+                if (prev_j == nums[j]) {
+                    continue;
+                }
+
                 if (nums[i] + nums[j] > 0) {
                     break;
                 }
@@ -36,15 +36,15 @@ class Solution {
 
                 if (nums[i] == nums[j] && nums[j] == val) {
                     if (map.get(val) >= 3) {
-                        set.add(new ArrayList<>(List.of(nums[i], nums[j], val)));
+                        ansList.add(new ArrayList<>(List.of(nums[i], nums[j], val)));
                     }
                 } else if (nums[j] == val) {
                     if (map.get(val) >= 2) {
-                        set.add(new ArrayList<>(List.of(nums[i], nums[j], val)));
+                        ansList.add(new ArrayList<>(List.of(nums[i], nums[j], val)));
                     }
                 } else {
                     if (map.containsKey(val)) {
-                        set.add(new ArrayList<>(List.of(nums[i], nums[j], val)));
+                        ansList.add(new ArrayList<>(List.of(nums[i], nums[j], val)));
                     }
                 }
 
@@ -53,7 +53,6 @@ class Solution {
             prev_i = nums[i];
         }
 
-        List<List<Integer>> list = new ArrayList<>(set);
-        return list;
+        return ansList;
     }
 }
