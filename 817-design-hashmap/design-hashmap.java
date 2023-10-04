@@ -1,9 +1,9 @@
 class MyHashMap {
     int max_size = 1000001;
-    int[] arr;
+    int[] arr = new int[max_size];
 
     public MyHashMap() {
-        arr = new int[max_size];
+        // arr = new int[max_size];
         Arrays.fill(arr, -1);
     }
     
