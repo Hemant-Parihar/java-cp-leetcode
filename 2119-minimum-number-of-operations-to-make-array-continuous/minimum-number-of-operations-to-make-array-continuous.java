@@ -28,11 +28,9 @@ class Solution {
 
             int index = Collections.binarySearch(list, min + diff);
             if (index < 0) {
-                index = -index;
-                temp_ans += list.size() - (index - 1);
-            } else {
-                temp_ans += list.size() - (index + 1);
+                index = -index -1 -1;
             }
+            temp_ans += list.size() - (index + 1);
             
             prev = list.get(i);
             ans = Math.min(ans, val + temp_ans);
