@@ -1,21 +1,37 @@
 class Logger {
 
-    HashMap<String, Integer> map;
+    class Log {
+        int time;
+        String message;
+        Log(int timestamp, String message) {
+            this.time = timestamp;
+            this.message = message;
+        }
+    }
+    
+    Queue<Log> queue;
+    HashSet<String> set;
+    
     public Logger() {
-        map = new HashMap<>();
+        queue = new LinkedList<>();
+        set = new HashSet<>();
     }
     
     public boolean shouldPrintMessage(int timestamp, String message) {
-        if (map.containsKey(message)) {
-            int time = map.get(message);
-            if (timestamp - time < 10) {
-                return false;
-            }
+        while(!queue.isEmpty() && timestamp - queue.peek().time >= 10) {
+            set.remove(queue.peek().message);
+            queue.poll();
         }
-        map.put(message, timestamp);
+        if (set.contains(message)) return false;
+        queue.add(new Log(timestamp, message));
+        set.add(message);
         return true;
     }
 }
+
+/**
+    
+ */
 
 /**
  * Your Logger object will be instantiated and called as such:
