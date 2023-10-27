@@ -45,10 +45,7 @@ class Solution {
             }
         }
 
-        if (node.left != null)
-            addLeaves(node.left, list);
-        
-        if (node.right != null)
-            addLeaves(node.right, list);
+        addLeaves(node.left, list);
+        addLeaves(node.right, list);
     }
 }
