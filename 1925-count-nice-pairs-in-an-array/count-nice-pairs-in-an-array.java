@@ -10,9 +10,9 @@ class Solution {
         long count = 0;
         for(int val : map.values()) {
             count += ((long)val * (val - 1)) / 2;
-            // count %= mod;
+            count %= mod;
         }
-        return (int)(count % mod);
+        return (int)(count);
     }
 
     int rev(int num) {
