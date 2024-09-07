@@ -6,7 +6,9 @@ class Solution {
         int[][] dp = new int[n][amount + 1];
 
         for(int i = 0; i < n; i++) {
-            Arrays.fill(dp[i], -1);
+            for(int j = 0; j <= amount; j++) {
+                dp[i][j] = -1;
+            }
         }
 
         int ans = solve(n - 1, coins, amount, dp);
