@@ -15,13 +15,13 @@ class Solution {
     }
 
     int solve(int i, int[] coins, int amount, int[][] dp) {
-        if (amount < 0 || i < 0) return MAX_NUM;
+        if (i < 0) return MAX_NUM;
         if (amount == 0) return 0;
 
         if (dp[i][amount] != -1) return dp[i][amount];
 
         int p, up = Integer.MAX_VALUE;
-        if (amount > 0) {
+        if (amount - coins[i] >= 0) {
             up = 1 + solve(i, coins, amount - coins[i], dp);
         }
         p = solve(i - 1, coins, amount, dp);
