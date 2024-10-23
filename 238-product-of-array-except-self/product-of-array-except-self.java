@@ -1,29 +1,37 @@
 class Solution {
     public int[] productExceptSelf(int[] nums) {
         int n = nums.length;
-        int[] prefix = new int[n];
-        int[] suffix = new int[n];
-
-        prefix[0] = nums[0];
-        for(int i = 1; i < n; i++) {
-            prefix[i] = nums[i] * prefix[i-1];
+        int countZeros = 0;
+        int prod = 1;
+        for(int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                countZeros++;
+            }
+            prod *= nums[i];
         }
 
-        suffix[n - 1] = nums[n - 1];
-        for(int i = n - 2; i >= 0; i--) {
-            suffix[i] = nums[i] * suffix[i + 1];
+        if (countZeros == 0) {
+            for(int i = 0; i < nums.length; i++) {
+                nums[i] = prod / nums[i];
+            }
+        } else if (countZeros == 1) {
+            int index = -1;
+            int s = 1;
+            int e = 1;
+            for(int i = 0; i < n; i++) {
+                if (nums[i] == 0) {
+                    index = i;
+                } else if (index != -1) {
+                    e *= nums[i];
+                } else {
+                    s *= nums[i];
+                }
+                nums[i] = 0;
+            }
+            nums[index] = s*e;
+        } else {
+            Arrays.fill(nums, 0);
         }
-
-        // System.out.println(Arrays.toString(prefix));
-        // System.out.println(Arrays.toString(suffix));
-
-        int[] ans = new int[n];
-        ans[0] = suffix[1];
-        ans[n - 1] = prefix[n - 2];
-        for(int i = 1; i < n - 1; i++) {
-            ans[i] = prefix[i-1] * suffix[i+1];
-        }
-
-        return ans;
+        return nums;
     }
 }
