@@ -12,7 +12,7 @@ class Solution {
             return false;
         }
         boolean ans = false;
-        for(int j = 1; j <= nums[i]; j++) {
+        for(int j = nums[i]; j > 0; j--) {
             ans = solve(i + j, nums, dp);
             if (ans == true) {
                 dp[i] = 1;
