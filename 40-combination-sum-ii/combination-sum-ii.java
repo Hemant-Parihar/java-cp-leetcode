@@ -18,32 +18,17 @@ class Solution {
             }
         }
 
-        int n = can.length;
-        int[][] dp = new int[n][target + 1];
-
-        for(int i = 0; i < n; i++) {
-            Arrays.fill(dp[i], -1);
-        }
-
-        solve(0, can, map, target, new ArrayList<>(), dp);
+        solve(0, can, map, target, new ArrayList<>());
         return ans;
     }
 
-    int solve(int i, int[] can, HashMap<Integer, Integer> map, int target, List<Integer> list, int[][] dp) {
+    void solve(int i, int[] can, HashMap<Integer, Integer> map, int target, List<Integer> list) {
         
-        // System.out.println(list + " " + i);
-
         if (target == 0) {
             ans.add(list);
-            return 1;
+            return;
         }
-        if (i >= can.length) return 0;
-
-        if (dp[i][target] != -1 && dp[i][target] == 0) {
-            return 0;
-        }
-
-        int p = 0;
+        if (i >= can.length) return;
         int size = map.get(can[i]);
 
         for(int j = 0; j <= size; j++) {
@@ -55,16 +40,8 @@ class Solution {
                 for(int k = 0; k < j; k++) {
                     newList.add(can[i]);
                 }
-                p += solve(i + size, can, map, target - j*can[i], newList, dp);
+                solve(i + size, can, map, target - j*can[i], newList);
             }
         }
-
-        if (p > 0) {
-            dp[i][target] = 1;
-        } else {
-            dp[i][target] = 0;
-        }
-        
-        return dp[i][target];
     }
 }
