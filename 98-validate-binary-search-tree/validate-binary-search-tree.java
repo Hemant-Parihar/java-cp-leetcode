@@ -14,40 +14,14 @@
  * }
  */
 class Solution {
-
     public boolean isValidBST(TreeNode root) {
-        if (root == null) return true;
-        if (root.left != null) {
-            int left = maxValue(root.left);
-            if (left >= root.val) return false;
-        }
-        if (root.right != null) {
-            int right = minValue(root.right);
-            if (right <= root.val) return false;
-        }
-        return isValidBST(root.left) && isValidBST(root.right);
+        if (root.left == null && root.right == null) return true;
+        return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    int maxValue(TreeNode node) {
-        int val = node.val;
-        if (node.left != null) {
-            val = Math.max(val, maxValue(node.left));
-        }
-        if (node.right != null) {
-            val = Math.max(val, maxValue(node.right));
-        }
-        return val;
+    boolean validate(TreeNode node, long min, long max) {
+        if (node == null) return true;
+        if (node.val <= min || node.val >= max) return false;
+        return validate(node.left, min, node.val) && validate(node.right, node.val, max);
     }
-
-        int minValue(TreeNode node) {
-        int val = node.val;
-        if (node.left != null) {
-            val = Math.min(val, minValue(node.left));
-        }
-        if (node.right != null) {
-            val = Math.min(val, minValue(node.right));
-        }
-        return val;
-    }
-
 }
