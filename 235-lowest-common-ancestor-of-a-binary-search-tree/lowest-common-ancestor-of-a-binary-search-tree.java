@@ -14,25 +14,15 @@ class Solution {
         List<TreeNode> listP = new ArrayList<>();
         find(root, p, listP);
 
-        // for(TreeNode node : listP) {
-        //     System.out.print(node.val + " ");
-        // }
-        // System.out.println();
 
         found = false;
         List<TreeNode> listQ = new ArrayList<>();
         find(root, q, listQ);
-        
-        // for(TreeNode node : listQ) {
-        //     System.out.print(node.val + " ");
-        // }
-        // System.out.println();
 
 
         TreeNode ans = null;
         int i = 0;
-
-        while((listP.size() > (i) && listQ.size() > (i)) && listP.get(i) == listQ.get(i)) {
+        while((listP.size() > i && listQ.size() > i ) && listP.get(i) == listQ.get(i)) {
             ans = listP.get(i);
             i++;
         }
