@@ -11,63 +11,32 @@
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         int k = lists.length;
-        int intervals = 1;
-        while(intervals < k) {
-            for(int i = 0; i + intervals < k; i += 2 * intervals) {
-                // System.out.println("call " + i + " " + (i + intervals));
-                lists[i] = merge(lists[i], lists[i + intervals]);
-            }
-            intervals = intervals << 1;
-        }
-        return k == 0 ? null : lists[0];
-    }
 
-    ListNode merge(ListNode l1, ListNode l2) {
-        ListNode head = null;
+        ListNode root = null;
         ListNode ptr = null;
-        while(l1 != null && l2 != null) {
-            // System.out.println(l1.val + " " + l2.val);
-            if (head == null) {
-                if (l1.val <= l2.val) {
-                    head = l1;
-                    l1 = l1.next;
-                    ptr = head;
-                } else {
-                    head = l2;
-                    l2 = l2.next;
-                    ptr = head;
-                }
-            } else {
-                if (l1.val <= l2.val) {
-                    ptr.next = l1;
-                    ptr = l1;
-                    l1 = l1.next;
-                } else {
-                    ptr.next = l2;
-                    ptr = l2;
-                    l2 = l2.next;
+        while(true) {
+            int min_index = -1;
+            int min_val = Integer.MAX_VALUE;
+            for(int i = 0; i < k; i++) {
+                if (lists[i] != null && min_val > lists[i].val) {
+                    min_val = lists[i].val;
+                    min_index = i;
                 }
             }
-        }
 
-        if (l1 != null) {
-            if (ptr == null) {
-                head = l1;
+            if (min_index == -1) break;
+
+            if (root == null) {
+                root = lists[min_index];
+                ptr = root;
             } else {
-                ptr.next = l1;
+                ptr.next = lists[min_index];
+                ptr = ptr.next;
             }
+
+            lists[min_index] = lists[min_index].next;
         }
 
-        if (l2 != null) {
-            if (ptr == null) {
-                head = l2;
-            } else {
-                ptr.next = l2;
-            }
-        }
-
-        return head;
+        return root;
     }
-
-
 }
