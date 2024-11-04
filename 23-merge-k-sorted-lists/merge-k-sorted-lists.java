@@ -11,31 +11,70 @@
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         int k = lists.length;
-
-        ListNode root = null;
-        ListNode ptr = null;
-        while(true) {
-            int min_index = -1;
-            int min_val = Integer.MAX_VALUE;
-            for(int i = 0; i < k; i++) {
-                if (lists[i] != null && min_val > lists[i].val) {
-                    min_val = lists[i].val;
-                    min_index = i;
-                }
+        if (k == 0) return null;
+        if (k == 1) return lists[0];
+        int jump = 1;
+        while(jump < k) {
+            for(int i = 0; (i + jump) < k; i = i + 2*jump) {
+                System.out.println("i: " + i + " i + jump : " + (i + jump));
+                lists[i] = merge(lists[i], lists[i + jump]);
             }
-
-            if (min_index == -1) break;
-
-            if (root == null) {
-                root = lists[min_index];
-                ptr = root;
-            } else {
-                ptr.next = lists[min_index];
-                ptr = ptr.next;
-            }
-
-            lists[min_index] = lists[min_index].next;
+            jump = 2 * jump;
         }
+        return lists[0];
+    }
+
+    void print(ListNode node) {
+        while(node != null) {
+            System.out.print(node.val + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
+    ListNode merge(ListNode node1, ListNode node2) {
+        
+        // print(node1);
+        // print(node2);
+
+        ListNode ptr1 = node1;
+        ListNode ptr2 = node2;
+        ListNode root = null;
+        ListNode ans = null;
+
+        while(ptr1 != null && ptr2 != null) {
+            if (ptr1.val <= ptr2.val) {
+                if (root == null) {
+                    root = ptr1;
+                    ans = root;
+                } else {
+                    ans.next = ptr1;
+                    ans = ans.next;
+                }
+                ptr1 = ptr1.next;
+            } else {
+                if (root == null) {
+                    root = ptr2;
+                    ans = root;  
+                } else {
+                    ans.next = ptr2;
+                    ans = ans.next;
+                }
+                ptr2 = ptr2.next;
+            }
+        }
+
+        if (ptr1 == null) {
+            if (root == null) return ptr2;
+            ans.next = ptr2;
+        }
+
+        if (ptr2 == null) {
+            if (root == null) return ptr1;
+            ans.next = ptr1;
+        }
+
+        // print(root);
 
         return root;
     }
