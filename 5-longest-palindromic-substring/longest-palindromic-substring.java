@@ -1,39 +1,43 @@
 class Solution {
     public String longestPalindrome(String s) {
-		int n = s.length();
-		int maxLen = -1;
-		String ans = "";
+        int n = s.length();
+        int ans = 1;
+        int start = 0;
+        int end = 0;
+        for(int i = 1; i < n; i++) {
+            int j = i - 1;
+            int k = i + 1;
+            while(j >= 0 && k < n && s.charAt(j) == s.charAt(k)) {
+                j--;
+                k++;
+            }
+            if (k - j - 1 > ans) {
+                ans = Math.max(ans, k - j - 1);
+                start = j + 1;
+                end = k - 1;
+            }
+            
+        }
 
-		for(int k = 0; k < n; k++) {
-			int i = k - 1;
-			int j = k + 1;
-			while(i >= 0 && j < n && s.charAt(i) == s.charAt(j) ) {
-				i--;
-				j++;
-			}
-			if (j - i + 1 - 2 > maxLen) {
-				ans = s.substring(i + 1, j);
-				maxLen = j - i + 1 - 2;
-				// System.out.println(ans + " " + maxLen);
-			}
-		}
+        for(int i = 1; i < n; i++) {
+            int j = i - 1;
+            int k = i;
+            while(j >= 0 && k < n && s.charAt(j) == s.charAt(k)) {
+                j--;
+                k++;
+            }
+            if (k - j - 1 > ans) {
+                ans = Math.max(ans, k - j - 1);
+                start = j + 1;
+                end = k - 1;
+            }
+        }
 
-		for(int k = 1; k < n; k++) {
-			if (s.charAt(k) == s.charAt(k-1)) {
-				int i = k - 1;
-				int j = k;
-				while(i >= 0 && j < n && s.charAt(i) == s.charAt(j) ) {
-					i--;
-					j++;
-				}
-				if (j - i + 1 - 2 > maxLen) {
-					ans = s.substring(i + 1, j);
-					maxLen = j - i + 1 - 2;
-					// System.out.println(ans + " " + maxLen);
-				}
-			}
-		}
+        StringBuilder str = new StringBuilder();
+        for(int i = start; i <= end; i++) {
+            str.append(s.charAt(i));
+        }
 
-		return ans;
+        return str.toString();
     }
 }
