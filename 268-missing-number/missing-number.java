@@ -18,8 +18,6 @@ class Solution {
         }
         if (f == false) return n;
 
-        System.out.println(Arrays.toString(nums));
-
         for(int i = 0; i < n; i++) {
             if (nums[i] > 0 && i != abc) return i;
         }
