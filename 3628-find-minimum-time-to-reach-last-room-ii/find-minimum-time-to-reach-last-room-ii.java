@@ -64,16 +64,16 @@ class Solution {
             if (i == n - 1 && j == m - 1) break;
             
             if (i - 1 >= 0 && time < min[i-1][j]) {
-                pq.add(new Node(i - 1, j, Math.max( time + jump, moveTime[i-1][j] + jump ), jump ));
+                pq.add(new Node(i - 1, j, jump + Math.max( time, moveTime[i-1][j] ), jump ));
             } 
             if (i + 1 < n && time < min[i+1][j] ) {
-                pq.add(new Node(i + 1, j, Math.max( time + jump, moveTime[i + 1][j] + jump), jump ) );
+                pq.add(new Node(i + 1, j, jump + Math.max( time, moveTime[i + 1][j] ), jump ) );
             } 
             if (j - 1 >= 0 && time < min[i][j - 1]) {
-                pq.add(new Node(i, j - 1, Math.max( time + jump, moveTime[i][j - 1] + jump), jump ) );
+                pq.add(new Node(i, j - 1, jump + Math.max( time, moveTime[i][j - 1] ), jump ) );
             } 
             if (j + 1 < m && time < min[i][j + 1]) {
-                pq.add( new Node (i, j + 1, Math.max( time + jump, moveTime[i][j + 1]  + jump), jump ) );
+                pq.add( new Node (i, j + 1, jump + Math.max( time, moveTime[i][j + 1] ), jump ) );
             }
             
         }
