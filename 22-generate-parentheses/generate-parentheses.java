@@ -1,22 +1,39 @@
 class Solution {
+    
+    List<String> ans = new ArrayList<>();
+    int N;
+
     public List<String> generateParenthesis(int n) {
-        HashSet<String> set = new HashSet<>();
-        solve(0, 0, n, "", set);
-        List<String> ans = new ArrayList<>();
-        ans.addAll(set);
+        N = n;
+        solve(0, 0, new StringBuilder());
         return ans;
     }
 
-    void solve(int open, int closed, int n, String str, HashSet<String> ans) {
-        if (closed > open || open > n) return;
-        if (open + closed == 2*n) {
-            ans.add(str);
+    void solve(int open, int close, StringBuilder str) {
+        if (close > open) return;
+        
+        if (open == N) {
+            int temp = close;
+            while(temp < N) {
+                temp++;
+                str.append(')');
+            }
+            ans.add(str.toString());
+
+            while(temp > close) {
+                temp--;
+                str.deleteCharAt( str.length() - 1 );
+            }
             return;
         }
-        if (open == n) {
-            solve(open, closed + 1, n, str + ")", ans);
-        }
-        solve(open + 1, closed, n, str + "(", ans);
-        solve(open, closed + 1, n, str + ")", ans);
+
+        str.append('(');
+        solve(open + 1, close, str);
+
+        str.deleteCharAt( str.length() - 1 );
+
+        str.append(')');
+        solve(open, close + 1, str);
+        str.deleteCharAt( str.length() - 1 );
     }
 }
