@@ -1,39 +1,36 @@
 class Solution {
 
+    List<List<String>> ans = new ArrayList<>();
+
     public List<List<String>> partition(String s) {
-        return solve(s);
+        solve(s, new ArrayList<>());
+        return ans;
     }
 
-    List<List<String>> solve( String s ) {
+    void solve( String s, ArrayList<String> list) {
         int n = s.length();
-        if (n == 0) return new ArrayList<>();
-        List<List<String>> list = new ArrayList<>();
 
-        if (n == 1) {
-            list.add( new ArrayList<>(List.of(s) ) );
-            return list;
+        if (n <= 1) {
+            if (n > 0)
+                list.add( s );
+            if (list.size() > 0)
+                ans.add(new ArrayList<>(list));
+            if (n > 0)
+                list.remove(list.size() - 1);
+            return;
         }
 
         for(int i = 1; i <= n; i++) {
             String str = s.substring(0, i);
 
             if (isValid(str)) {
+                
+                list.add(str);
+                solve ( s.substring(i),  list);
 
-                List<List<String>> subList = solve ( s.substring(i) );
-
-                for(int j = 0; j < subList.size() ; j++) {
-                    subList.get(j).add(0, str);
-                    list.add(subList.get(j));
-                }
-
-                if (subList.size() == 0) {
-                    list.add(new ArrayList<>(List.of(str)));
-                }
-
+                list.remove(list.size() - 1);
             }
         }
-
-        return list;
     }
 
     boolean isValid(String s) {
