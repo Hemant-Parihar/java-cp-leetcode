@@ -18,13 +18,13 @@ class Solution {
             if (ans.size() == 0) {
                 ans.addAll(map.get(dig));
             } else {
-                List<String> tempAns = new ArrayList<>(ans);
+                
                 List<String> newList = new ArrayList<>();
 
-                for(int j = 0; j < tempAns.size(); j++) {
+                for(int j = 0; j < ans.size(); j++) {
                     List<String> temp = map.get(dig);
                     for(int k = 0; k < temp.size(); k++) {
-                        newList.add( tempAns.get(j) + temp.get(k) );
+                        newList.add( ans.get(j) + temp.get(k) );
                     }
                 }
 
