@@ -1,58 +1,57 @@
 class Solution {
-
+    
     class Node {
-        int des;
-        int time;
-        Node(int des, int time) {
-            this.des = des;
-            this.time = time;
+        int v;
+        int w;
+        Node(int v, int w) {
+            this.v = v;
+            this.w = w;
         }
     }
 
     public int networkDelayTime(int[][] times, int n, int k) {
-        ArrayList[] adjList = new ArrayList[n+1];
+        ArrayList[] graph = new ArrayList[n + 1];
         for(int i = 0; i <= n; i++) {
-            adjList[i] = new ArrayList<Node>();
+            graph[i] = new ArrayList<>();
         }
+
         for(int i = 0; i < times.length; i++) {
             int u = times[i][0];
             int v = times[i][1];
             int w = times[i][2];
-
-            adjList[u].add(new Node(v, w));
+            graph[u].add( new Node(v, w) );
         }
 
-        PriorityQueue<Node> minHeap = new PriorityQueue<>((a, b) -> a.time - b.time);
-        int[] visited = new int[n + 1];
-        Arrays.fill(visited, Integer.MAX_VALUE);
+        PriorityQueue<Node> pq = new PriorityQueue<>( (a, b) -> a.w - b.w );
 
-        minHeap.add(new Node(k, 0));
-        visited[k] = 0;
-        
-        while(!minHeap.isEmpty()) {
-            Node node = minHeap.poll();
-            int u = node.des;
-            int time = node.time;
+        int[] ans = new int[n + 1];
+        Arrays.fill(ans, Integer.MAX_VALUE);
 
-            for(int i = 0; i < adjList[u].size(); i++) {
-                Node desNode = (Node) adjList[u].get(i);
-                int v = desNode.des;
-                if (visited[v] <= time + desNode.time) {
-                    continue;
+        pq.add(new Node(k, 0));
+        ans[k] = 0;
+
+        while(!pq.isEmpty()) {
+            Node node = pq.poll();
+            int u = node.v;
+            for(int i = 0; i < graph[u].size(); i++) {
+                Node newNode = (Node) graph[u].get(i);
+                int w = node.w + newNode.w;
+                // System.out.println(w + " " + newNode.v + " " + ans[newNode.v]);
+                if (w < ans[newNode.v]) {
+                    ans[newNode.v] = w;
+                    pq.add(new Node(newNode.v, w));
                 }
-                visited[v] = time + desNode.time;
-                minHeap.add(new Node(v, time + desNode.time));
             }
         }
 
-        // System.out.println(Arrays.toString(visited));
-
-        int max = 0;
+        int ret = -1;
         for(int i = 1; i <= n; i++) {
-            if (visited[i] == Integer.MAX_VALUE) return -1;
-            max = Math.max(max, visited[i]);
+            ret = Math.max(ret, ans[i]);
         }
 
-        return max;
+        System.out.println(Arrays.toString(ans));
+
+        if (ret == Integer.MAX_VALUE) return -1;
+        return ret;
     }
 }
