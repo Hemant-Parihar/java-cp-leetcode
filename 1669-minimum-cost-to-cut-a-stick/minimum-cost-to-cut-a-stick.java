@@ -1,30 +1,42 @@
 class Solution {
-    public int minCost(int n, int[] cuts) {
 
-        HashMap<String, Integer> map = new HashMap<>();
-        return solve(0, n, cuts, map);
+    int[][] dp = new int[102][102];
+
+    public int minCost(int n, int[] cuts) {
+        var c = new ArrayList<Integer>();
+        for (int cut : cuts)
+            c.add(cut);
+        c.addAll(Arrays.asList(0, n));
+        Collections.sort(c);
+
+        for(int i = 0; i < dp.length; i++) {
+            for(int j = 0; j < dp.length; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        
+        return solve(c, 0, c.size() - 1, dp);
     }
 
-    int solve(int i, int j, int[] cuts, HashMap<String, Integer> map) {
-        if (j - i <= 1)
+    int solve(ArrayList<Integer> cuts, int i, int j, int[][] dp) {
+        if (j - i < 0)
             return 0;
 
-        String str = i + "-" + j;
-        if ( map.containsKey(str) ) return map.get(str);
+        if (dp[i][j] != -1) return dp[i][j];
 
         int ans = Integer.MAX_VALUE;
 
-        for(int k = 0; k < cuts.length; k++) {
-            if (cuts[k] > i && cuts[k] < j) {
-                int temp_ans = (j - i) + solve(i, cuts[k], cuts, map) + solve(cuts[k], j, cuts, map);
-                ans = Math.min(ans, temp_ans);
-            }
+        for(int k = i + 1; k <= j - 1; k++) {
+            int temp_ans = ( (cuts.get(j) - cuts.get(i)) + solve(cuts, i, k, dp)
+                             + solve(cuts, k, j, dp) );
+            ans = Math.min(ans, temp_ans);
         }
 
         if (ans == Integer.MAX_VALUE) {
             ans = 0;
         }
-        map.put(str, ans);
+
+        dp[i][j] = ans;
         return ans;
     }
 }
