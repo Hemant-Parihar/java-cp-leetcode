@@ -1,23 +1,23 @@
 class SummaryRanges {
 
     int n = 100001;
-    int[] intervals = new int[n];
+    boolean[] intervals = new boolean[n];
 
     public SummaryRanges() {
         
     }
     
     public void addNum(int value) {
-        intervals[value] = 1;
+        intervals[value] = true;
     }
     
     public int[][] getIntervals() {
         List<int[]> ans = new ArrayList<>();
         for(int i = 0; i < n; i++) {
-            if (intervals[i] == 1) {
+            if (intervals[i] == true) {
                 int start = i;
 
-                while(i < n && intervals[i] == 1) {
+                while(i < n && intervals[i] == true) {
                     i++;
                 }
 
