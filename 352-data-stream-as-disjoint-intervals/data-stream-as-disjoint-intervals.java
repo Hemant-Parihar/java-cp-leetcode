@@ -30,16 +30,7 @@ class SummaryRanges {
             }
         }
 
-        int size = ans.size();
-
-        int[][] ret = new int[size][2];
-
-        for(int i = 0; i < size; i++) {
-            ret[i][0] = ans.get(i)[0];
-            ret[i][1] = ans.get(i)[1];
-        }
-
-        return ret;
+        return ans.toArray(new int[ans.size()][]);
     }
 }
 
