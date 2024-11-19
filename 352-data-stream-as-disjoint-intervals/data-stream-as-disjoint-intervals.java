@@ -21,7 +21,7 @@ class SummaryRanges {
                     i++;
                 }
 
-                int end = --i;
+                int end = i - 1;
                 int[] sub_ans = new int[2];
                 sub_ans[0] = start;
                 sub_ans[1] = end;
