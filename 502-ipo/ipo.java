@@ -10,7 +10,6 @@ class Solution {
     }
 
     public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
-        int ans = w;
 
         PriorityQueue<Node> capacity_less_pq = new PriorityQueue<Node>( (a, b) -> b.p - a.p);
         PriorityQueue<Node> capacity_greater_pq = new PriorityQueue<Node>( (a, b) -> a.c - b.c  );
@@ -32,12 +31,12 @@ class Solution {
             if (capacity_less_pq.isEmpty()) break;
 
             Node node = capacity_less_pq.poll();
-            ans += node.p;
+            
             w += (node.p );
             
             k--;
         }
 
-        return ans;
+        return w;
     }
 }
