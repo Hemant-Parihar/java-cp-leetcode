@@ -2,7 +2,6 @@ class Solution {
 
     int MOD = 1000000007;
     public int numWays(String[] words, String target) {
-        if (target.length() > words[0].length()) return 0;
 
         int n = words[0].length();
         int m = target.length();
