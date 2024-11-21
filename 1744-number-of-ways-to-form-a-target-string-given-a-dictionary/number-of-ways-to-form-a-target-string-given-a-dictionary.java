@@ -1,21 +1,19 @@
 class Solution {
 
     int MOD = 1000000007;
-    long[][] dp;
-    int[][] count;
+    long[][] dp = new long[1001][1001];
+    int[][] count = new int[26][1001];
 
     public int numWays(String[] words, String target) {
 
         int n = words[0].length();
         int m = target.length();
-        
-        dp = new long[n][m];
+    
 
         for(int i = 0; i < words[0].length(); i++) {
             Arrays.fill(dp[i], -1);
         }
 
-        count = new int[26][n];
 
         for(int k = 0; k < 26; k++) {
             char ch = (char) ('a' + k);
