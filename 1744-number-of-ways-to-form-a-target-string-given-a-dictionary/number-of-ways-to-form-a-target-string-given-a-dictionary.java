@@ -45,9 +45,11 @@ class Solution {
         char ch = target.charAt(j);
 
         long num = count[ch - 'a'][i];
-        long val = solve(i + 1, j + 1, words, target) % MOD;
 
-        p = (num * val) % MOD;
+        if (num > 0) {
+            long val = solve(i + 1, j + 1, words, target) % MOD;
+            p = (num * val) % MOD;
+        }
         
         
         up = solve(i + 1, j, words, target);
