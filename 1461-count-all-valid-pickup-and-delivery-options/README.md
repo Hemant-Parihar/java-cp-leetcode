@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options">Count All Valid Pickup and Delivery Options</a></h2> <img src='https://img.shields.io/badge/Difficulty-Hard-red' alt='Difficulty: Hard' /><hr><p>Given <code>n</code> orders, each order consist in pickup and delivery services.&nbsp;</p>
+<h2><a href="https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options">Count All Valid Pickup and Delivery Options</a></h2> <img src='https://img.shields.io/badge/Difficulty-Hard-red' alt='Difficulty: Hard' /><hr><p>Given <code>n</code> orders, each order consists of a pickup and a delivery service.</p>
 
 <p>Count all valid pickup/delivery possible sequences such that delivery(i) is always after of&nbsp;pickup(i).&nbsp;</p>
 
