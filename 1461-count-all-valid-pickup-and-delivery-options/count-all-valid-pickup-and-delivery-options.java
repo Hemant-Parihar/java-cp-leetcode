@@ -1,37 +1,42 @@
 class Solution {
-    int mod = 1000000007;
+
+    int MOD = 1000000007;
+
+    int[] f;
     public int countOrders(int n) {
-        long[][] dp = new long[n + 1][n + 1];
-        for(int i = 0; i <=n; i++) {
-            for(int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
+        long c = 1;
+        f = new int[n + 1];
+        f[0] = 1;
+        for(int i = 1; i <= n; i++) {
+            c = c * i;
+            c = c % MOD;
+            f[i] = (int) c;
+        }
+
+        long[][] dp = new long[n+1][n+1];
+
+        for(int i = 0; i <= n; i++) {
+            Arrays.fill(dp[i], -1);
         }
         
-        return (int)solve(n, 0, dp);
+        return (int) solve(0, 0, n, dp);
     }
 
-    long solve(int pickUp, int delivery, long[][] dp) {
-        if (dp[pickUp][delivery] != -1) {
-            return dp[pickUp][delivery];
+    long solve(int p, int d, int n, long[][] dp) {
+        if (d > p) return 0;
+        if (p == n) {
+            // we have processed all the element.
+            int count = n - d;
+            return f[count];
         }
 
-        if (pickUp == 0) return dp[pickUp][delivery] = fac(delivery);
+        if (dp[p][d] != -1) return dp[p][d];
 
-        long ans = 0;
-        ans = (ans + (pickUp) * solve(pickUp - 1, delivery + 1, dp)) % mod;
-        if (delivery > 0) {
-            ans = (ans + (delivery) * solve(pickUp, delivery - 1, dp) ) % mod;
-        }
+        long val =  (n - p) * solve(p + 1, d, n, dp);
+        val %= MOD;
+        long val2 = (p - d) * solve(p, d + 1, n, dp);
+        val2 %= MOD;
 
-        return dp[pickUp][delivery] = ans;
-    }
-
-    long fac(int delivery) {
-        long ans = 1;
-        for(int i = 2; i <= delivery; i++) {
-            ans = (ans * i) % mod;
-        }
-        return ans;
+        return dp[p][d] = ((val + val2) % MOD);
     }
 }
