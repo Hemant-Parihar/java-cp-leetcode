@@ -26,7 +26,7 @@ class Solution {
 
         }
 
-        System.out.println(Arrays.toString(candy));
+        // System.out.println(Arrays.toString(candy));
 
         int sum = 0;
         for(int i = 0; i < n; i++) {
