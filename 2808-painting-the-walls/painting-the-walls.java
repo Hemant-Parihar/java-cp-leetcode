@@ -11,19 +11,19 @@ class Solution {
         return solve(0, 0, cost, time, dp);
     }
 
-    int solve(int i, int t, int[] cost, int[] time, int[][] dp) {
+    int solve(int i, int count, int[] cost, int[] time, int[][] dp) {
         int n = cost.length;
-        if ( t >= cost.length) return 0;
+        if ( count >= cost.length) return 0;
 
         if (i == cost.length) {
             return INT_MAX;
         }
 
-        if (dp[i][t] != -1) return dp[i][t]; 
+        if (dp[i][count] != -1) return dp[i][count]; 
 
-        return dp[i][t] = Math.min( 
-                cost[i] + solve(i + 1, Math.min(1 + t + time[i], n), cost, time, dp),
-                solve(i + 1, t, cost, time, dp) 
+        return dp[i][count] = Math.min( 
+                cost[i] + solve(i + 1, Math.min(1 + count + time[i], n), cost, time, dp),
+                solve(i + 1, count, cost, time, dp)
             );
     }
 }
