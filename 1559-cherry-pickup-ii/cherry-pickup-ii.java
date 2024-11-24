@@ -2,7 +2,9 @@ class Solution {
     public int cherryPickup(int[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
+
         int[][][] dp = new int[n][m][m];
+
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < m; j++) {
                 for(int k = 0; k < m; k++) {
@@ -10,44 +12,39 @@ class Solution {
                 }
             }
         }
+
         return solve(0, 0, m - 1, grid, dp);
     }
 
-    int solve(int i, int j, int l, int[][] grid, int[][][] dp) {
+    int solve(int row, int r1, int r2, int[][] grid, int[][][] dp) {
         int n = grid.length;
         int m = grid[0].length;
-        if (j < 0 || l < 0 || j >= m || l >= m) return Integer.MIN_VALUE;
+        if (row == n) return 0;
+        if (r1 < 0 || r2 < 0 || r1 == m || r2 == m) return 0;
 
-        if (i == n - 1) {
-            if (j != l) 
-                return grid[i][j] + grid[i][l];
-            return grid[i][j];
-        }
-
-        if (dp[i][j][l] != -1) {
-            return dp[i][j][l];
-        }
-
-        int ans = 0;
-        int val;
-        if (j != l) {
-            val = grid[i][j] + grid[i][l];
-        } else {
-            val = grid[i][j];
-        }
+        if (dp[row][r1][r2] != -1) return dp[row][r1][r2];
         
-        ans = Math.max(ans, val + solve(i + 1, j - 1, l - 1, grid, dp));
-        ans = Math.max(ans, val + solve(i + 1, j, l - 1, grid, dp));
-        ans = Math.max(ans, val + solve(i + 1, j + 1, l - 1, grid, dp));
+        int ans = 0;
+        if (r1 == r2) {
+            ans += grid[row][r1];
+        } else {
+            ans = grid[row][r1] + grid[row][r2];
+        }
 
-        ans = Math.max(ans, val + solve(i + 1, j - 1, l, grid, dp));
-        ans = Math.max(ans, val + solve(i + 1, j, l, grid, dp));
-        ans = Math.max(ans, val + solve(i + 1, j + 1, l, grid, dp));
 
-        ans = Math.max(ans, val + solve(i + 1, j - 1, l + 1, grid, dp));
-        ans = Math.max(ans, val + solve(i + 1, j, l + 1, grid, dp));
-        ans = Math.max(ans, val + solve(i + 1, j + 1, l + 1, grid, dp));
+        int temp_ans = 0;
+        temp_ans = solve(row + 1, r1 - 1, r2 - 1, grid, dp);
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1, r2 - 1, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1 + 1, r2 - 1, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1 - 1, r2, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1 - 1, r2, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1, r2, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1 + 1, r2, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1 - 1, r2 + 1, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1, r2 + 1, grid, dp));
+        temp_ans = Math.max(temp_ans, solve(row + 1, r1 + 1, r2 + 1, grid, dp));
 
-        return dp[i][j][l] = ans;
+
+        return dp[row][r1][r2] = ans + temp_ans;
     }
 }
