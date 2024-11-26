@@ -13,9 +13,7 @@ class Solution {
         PriorityQueue<Node> maxHeap = new PriorityQueue<Node>( (a, b) -> b.val - a.val );
 
         for(int i = 0, j = 0; j < nums.length; j++) {
-            while(!maxHeap.isEmpty() && maxHeap.peek().val < nums[j]) {
-                maxHeap.poll();
-            }
+
             maxHeap.add(new Node(nums[j], j));
 
             if (j - i + 1 == k) {
