@@ -1,35 +1,44 @@
 class Solution {
     public int maximumScore(int[] nums, int k) {
+        int i = k;
+        int j = k;
+        int ans = nums[i];
+        int min = nums[i];
         int n = nums.length;
-        int[] nse = new int[n];
-        Arrays.fill(nse, n);
-        Stack<Integer> stack = new Stack<>();
-        for(int i = 0; i < n; i++) {
-            while(!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
-                nse[stack.pop()] = i;
+        
+        while( i >=0 || j < nums.length ) {
+            while (i > 0 && nums[i - 1] >= min) {
+                i--;
             }
-            stack.add(i);
+
+            while ( (j + 1) < nums.length && nums[j + 1] >= min) {
+                j++;
+            }
+
+            ans = Math.max(ans, min * (j - i + 1));
+            // System.out.println(min + " " + j + " " + i);
+
+            if (i == 0 && j == (n - 1)) {
+                // we have reached the end.
+                break;
+            } else if (i == 0) {
+                min = nums[j + 1];
+                j++;
+            } else if (j == (n - 1)) {
+                min = nums[i - 1];
+                i--;
+            } else {
+                if (nums[i - 1] >= nums[j+1]) {
+                    min = nums[i - 1];
+                    i--;
+                } else {
+                    min = nums[j + 1];
+                    j++;
+                }
+            }
+
         }
 
-        stack.clear();
-
-        int[] pse = new int[n];
-        Arrays.fill(pse, -1);
-        for(int i = n - 1; i >= 0; i--) {
-            while(!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
-                pse[stack.pop()] = i;
-            }
-            stack.add(i);
-        }
-
-        int score = 0;
-        for(int u = 0; u < n; u++) {
-            int j = nse[u] - 1;
-            int i = pse[u] + 1;
-            if (i <= k && k <= j) {
-                score = Math.max(score, nums[u] * (j - i + 1));
-            }
-        }
-        return score;
+        return ans;
     }
 }
