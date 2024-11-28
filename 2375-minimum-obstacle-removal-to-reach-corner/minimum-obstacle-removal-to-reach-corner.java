@@ -30,7 +30,7 @@ class Solution {
             int j = node.y;
             int val = node.val;
 
-            // if (val > dp[i][j]) continue;
+            if (val > dp[i][j]) continue;
 
             int obs = grid[i][j];
 
