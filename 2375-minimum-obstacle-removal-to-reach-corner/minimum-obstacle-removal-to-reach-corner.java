@@ -30,9 +30,9 @@ class Solution {
             int j = node.y;
             int val = node.val;
 
-            // if (val > dp[i][j]) continue;
-
             int obs = grid[i][j];
+
+            if (i == m - 1 && j == n - 1) return val;
 
             if (i - 1 >= 0 && dp[i - 1][j] > (val + obs) ) {
                 dp[i - 1][j] = (val + obs);
