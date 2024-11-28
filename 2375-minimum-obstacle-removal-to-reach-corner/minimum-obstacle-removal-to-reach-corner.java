@@ -1,63 +1,62 @@
 class Solution {
+
+    class Node{
+        int x;
+        int y;
+        int val;
+        Node(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+    }
+    
     public int minimumObstacles(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        
-        if (m == 1 && n == 1) return 0;
 
-        int[][] visited = new int[m][n];
+        int[][] dp = new int[m][n];
         for(int i = 0; i < m; i++) {
-            Arrays.fill(visited[i], Integer.MAX_VALUE);
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
         }
-        PriorityQueue<int[]> heap = new PriorityQueue<>( (a, b) -> a[2] - b[2]);
 
-        heap.add(new int[]{0, 0, 0});
-        visited[0][0] = 0;
+        PriorityQueue<Node> pq = new PriorityQueue<>( (a, b) -> a.val - b.val );
+        dp[0][0] = 0;
+        pq.add(new Node(0, 0, 0));
 
-        while(!heap.isEmpty()) {
-            int[] arr = heap.poll();
-            int i = arr[0];
-            int j = arr[1];
-            int k = arr[2];
+        while(!pq.isEmpty()) {
+            Node node = pq.poll();
+            int i = node.x;
+            int j = node.y;
+            int val = node.val;
 
-            if (i == m - 1 && j == n - 1) {
-                return k;
+            if (val > dp[i][j]) continue;
+
+            int obs = grid[i][j];
+
+            if (i - 1 >= 0 && dp[i - 1][j] > (val + obs) ) {
+                dp[i - 1][j] = (val + obs);
+                pq.add(new Node(i - 1, j, val + obs));
             }
 
-            if (grid[i][j] == 1) {
-                k = k + 1;
+            if (i + 1 < m && dp[i + 1][j] > (val + obs)) {
+                dp[i + 1][j] = (val + obs);
+                pq.add(new Node(i + 1, j, val + obs));
             }
 
-            if (i - 1 >= 0) {
-                if (visited[i- 1][j] > k) {
-                    visited[i-1][j] = k;
-                    heap.add(new int[]{i - 1, j, k});
-                }
+            if (j - 1 >= 0 && dp[i][j - 1] > (val + obs)) {
+                dp[i][j - 1] = (val + obs);
+                pq.add(new Node(i, j - 1, val + obs));
             }
 
-            if (j - 1 >= 0) {
-                if (visited[i][j- 1] > k) {
-                    visited[i][j-1] = k;
-                    heap.add(new int[]{i, j - 1, k});
-                }
-            }
+            if (j + 1 < n && dp[i][j + 1] > (val + obs)) {
+                dp[i][j + 1] = (val + obs);
 
-            if (i + 1 < m) {
-                if (visited[i + 1][j] > k) {
-                    visited[i + 1][j] = k;
-                    heap.add(new int[]{i + 1, j, k});
-                }
-            }
-
-            if (j + 1 < n) {
-                if (visited[i][j + 1] > k) {
-                    visited[i][j + 1] = k;
-                    heap.add(new int[]{i, j + 1, k});
-                }
+                pq.add(new Node(i, j + 1, val + obs));
             }
         }
 
-        return visited[m-1][n-1];
-        
+        return dp[m - 1][n - 1];
+
     }
 }
