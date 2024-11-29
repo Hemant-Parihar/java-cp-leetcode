@@ -3,6 +3,7 @@ class Solution {
         int n = nums.length;
         int[] dp = new int[n];
         Arrays.fill(dp, 1);
+
         for(int i = 1; i < n; i++) {
             int j = i - 1;
             while(j >= 0) {
