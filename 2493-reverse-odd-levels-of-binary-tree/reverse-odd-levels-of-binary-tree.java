@@ -25,17 +25,17 @@ class Solution {
             Queue<TreeNode> tempQueue = new LinkedList<>();
 
             for(int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left == null) continue;
+
                 if ( (level % 2) == 0) {
-                    TreeNode node = queue.poll();
-                    if (node.left == null) continue;
                     values.add(node.left.val);
                     values.add(node.right.val);
                     tempQueue.add(node.left);
                     tempQueue.add(node.right);
                 } else {
-                    TreeNode node = queue.poll();
-                    if (node.left != null) queue.add(node.left);
-                    if (node.right != null) queue.add(node.right);
+                    queue.add(node.left);
+                    queue.add(node.right);
                 }
             }
 
