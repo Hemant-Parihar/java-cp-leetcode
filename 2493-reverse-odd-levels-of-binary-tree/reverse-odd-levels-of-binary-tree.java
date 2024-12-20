@@ -15,42 +15,20 @@
  */
 class Solution {
     public TreeNode reverseOddLevels(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int level = 0;
+        solve(root.left, root.right, 1);
+        return root;
+    }
 
-        while(!queue.isEmpty()) {
-            int size = queue.size();
-            List<Integer> values = new ArrayList<>();
-            Queue<TreeNode> tempQueue = new LinkedList<>();
+    void solve(TreeNode node1, TreeNode node2, int level) {
+        if (node1 == null || node2 == null) return;
 
-            for(int i = 0; i < size; i++) {
-                TreeNode node = queue.poll();
-                if (node.left == null) continue;
-
-                if ( (level % 2) == 0) {
-                    values.add(node.left.val);
-                    values.add(node.right.val);
-                    tempQueue.add(node.left);
-                    tempQueue.add(node.right);
-                } else {
-                    queue.add(node.left);
-                    queue.add(node.right);
-                }
-            }
-
-            if (values.size() > 0) {
-                Collections.reverse(values);
-                for(int i = 0; i < values.size(); i++) {
-                    TreeNode node = tempQueue.poll();
-                    node.val = values.get(i);
-                    queue.add(node);
-                }
-            }
-
-            level++;
+        if (level % 2 == 1) {
+            int temp = node1.val;
+            node1.val = node2.val;
+            node2.val = temp;
         }
 
-        return root;
+        solve(node1.left, node2.right, level + 1);
+        solve(node1.right, node2.left, level + 1);
     }
 }
