@@ -1,76 +1,38 @@
 class Solution {
+
+    class Node {
+        long prefix;
+        int end_index;
+        Node(long p, int e) {
+            this.prefix = p;
+            this.end_index = e;
+        }
+    }
+
     public int shortestSubarray(int[] nums, int k) {
         int n = nums.length;
-        int[] prefixSum = new int[n];
-        prefixSum[0] = nums[0];
-        for(int i = 1; i < n; i++) {
-            prefixSum[i] = nums[i] + prefixSum[i-1];
-        }
-        int[] nsl = new int[n];
-        Stack<Integer> stack = new Stack<>();
+        PriorityQueue<Node> pq = new PriorityQueue<Node>( (a, b) -> Long.compare(a.prefix, b.prefix));
+
+        int res = n + 1;
+        long curr_sum = 0;
         for(int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && prefixSum[stack.peek()] > prefixSum[i]) {
-                nsl[stack.pop()] = i;
+            curr_sum += nums[i];
+
+            // it might be possible that this curr_sum is the ans.
+            if (curr_sum >= k) {
+                res = Math.min(res, i + 1);
             }
-            stack.push(i);
-        }
-        while(!stack.isEmpty()) {
-            nsl[stack.pop()] = n;
-        }
-        // System.out.println(Arrays.toString(prefixSum));
-        // System.out.println(Arrays.toString(nsl));
 
-        // for(int i = 0; i < n; i++) {
-        //     System.out.println(nums[i] + " " + prefixSum[i] + " " + nsl[i]);
-        // }
-
-        int i = 0;
-        int j = 0;
-        long sum = 0;
-        int ans = n + 1;
-
-        while(j <= n) {
-            if (ans == 1) break;
-
-            if (j != n && sum < k) {
-                sum += nums[j];
-                j++;
-                if (sum <= 0) {
-                    i = j;
-                    sum = 0;
-                }
-            } else {
-                // System.out.println("start " + i + " " + j + " " + sum);
-
-                while(i < j && (sum >= k || (i > 0 && nsl[i - 1] < j))) {
-                    if (sum >= k) {
-                        // System.out.println(i + " " + j);
-                        ans = Math.min(ans, j - i);
-                        i++;
-                    } else {
-                       if (i > 0 && nsl[i-1] < j) {
-                            i = nsl[i-1] + 1;
-                        }
-                    }
-
-                    if (i == 0) {
-                        sum = prefixSum[j-1];
-                    } else {
-                        sum = prefixSum[j-1] - prefixSum[i - 1];
-                    }
-                    
-                    // System.out.println(i + " " + sum);
-                }
-
-                // System.out.println("end " + i + " " + j + " " + sum);
-
-                if (j == n) {
-                    break;
-                }
-
+            while(!pq.isEmpty() && curr_sum - pq.peek().prefix >= k) {
+                // we can remove this prefix sum from the heep.
+                Node node = pq.poll();
+                res = Math.min(res, i - node.end_index);
             }
+
+            pq.add(new Node(curr_sum, i));
         }
 
-        return ans == n + 1 ? - 1 : ans;
+        if (res == n + 1) return -1;
+        return res;
     }
 }
