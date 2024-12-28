@@ -1,36 +1,34 @@
 class Solution {
-    // Returns number of pairs with absolute difference less than or equal to mid.
-    private int countPairs(int[] a, int mid) {
-        int n = a.length, res = 0;
-        for (int i = 0; i < n; ++i) {
-            int j = i;
-            while (j < n && a[j] - a[i] <= mid) j++;
-            res += j - i - 1;
+    public int smallestDistancePair(int[] nums, int k) {
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        int l = 0;
+        int r = nums[n - 1] - nums[0];
+
+        while(l < r) {
+            int mid = l + (r - l) / 2;
+            if (countAllPair(nums, mid) < k) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
         }
-        return res;
+
+        return l;
     }
 
-    public int smallestDistancePair(int a[], int k) {
-        int n = a.length;
-        Arrays.sort(a);
-
-        // Minimum absolute difference
-        int low = a[1] - a[0];
-        for (int i = 1; i < n - 1; i++)
-            low = Math.min(low, a[i + 1] - a[i]);
-
-        // Maximum absolute difference
-        int high = a[n - 1] - a[0];
-
-        // Do binary search for k-th absolute difference
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            if (countPairs(a, mid) < k)
-                low = mid + 1;
-            else
-                high = mid;
+    int countAllPair(int[] nums, int diff) {
+        int n = nums.length;
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            int j = i + 1;
+            while(j < n && (nums[j] - nums[i]) <= diff) {
+                count++;
+                j++;
+            }
         }
 
-        return low;
+        return count;
     }
 }
