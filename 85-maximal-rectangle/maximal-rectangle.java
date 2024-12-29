@@ -15,58 +15,41 @@ class Solution {
                 }
             }
 
-            // System.out.println(Arrays.toString(heights));
-
-
             ans = Math.max(ans, largestRectangleArea(heights));
         }
 
         return ans;
     }
 
+    class Node {
+        int val;
+        int index;
+        Node(int val, int index) {
+            this.val = val;
+            this.index = index;
+        }
+    }
     public int largestRectangleArea(int[] heights) {
         int n = heights.length;
-        int[] pse = new int[n];
-        int[] nse = new int[n];
-
-        Stack<Integer> stack = new Stack<>();
-
+        Stack<Node> stack = new Stack<>();
+        int area = 0;
         for(int i = 0; i < n; i++) {
-            while(!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
-                // we don't need this element any more.
-                stack.pop();
+            int index = i;
+            while(!stack.isEmpty() && stack.peek().val >= heights[i]) {
+                Node node = stack.pop();
+                int d = i - node.index;
+                area = Math.max(area, d * node.val);
+                index = node.index;
             }
-
-            if (stack.isEmpty()) {
-                pse[i] = -1;
-            } else {
-                pse[i] = stack.peek();
-            }
-
-            stack.add(i);
+            stack.push(new Node(heights[i], index));
         }
 
-        stack.clear();
-
-        for(int i = n - 1; i >= 0; i--) {
-            while(!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
-                stack.pop();
-            }
-
-            if (stack.isEmpty()) {
-                nse[i] = n;
-            } else {
-                nse[i] = stack.peek();
-            }
-
-            stack.add(i);
+        while(!stack.isEmpty()) {
+            Node node = stack.pop();
+            int d = n - node.index;
+            area = Math.max(area, d * node.val);
         }
 
-        int ans = 0;
-        for(int i = 0; i < n; i++) {
-            ans = Math.max(ans, heights[i] * (i - pse[i] - 1) + heights[i] * (nse[i] - i) );
-        }
-
-        return ans;
+        return area;
     }
 }
