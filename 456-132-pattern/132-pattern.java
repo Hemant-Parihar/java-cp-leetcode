@@ -1,29 +1,39 @@
 class Solution {
     public boolean find132pattern(int[] nums) {
         int n = nums.length;
+        int[] min_i = new int[n];
 
-        int[] prefixMin = new int[n];
-        int min = Integer.MAX_VALUE;
-        for(int i = 0; i < n; i++) {
-            min = Math.min(min, nums[i]);
-            prefixMin[i] = min;
+        int index = 0;
+        min_i[0] = 0;
+        for(int i = 1; i < n; i++) {
+            if (nums[index] > nums[i]) {
+                index = i;
+            }
+            min_i[i] = index;
         }
 
+        int[] pge = new int[n];
         Stack<Integer> stack = new Stack<>();
-        int[] nge = new int[n];
-        Arrays.fill(nge, -1);
-        for(int i = n - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
-                nge[stack.pop()] = i;
+
+        for(int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) {
+                stack.pop();
+            }
+            if (stack.isEmpty()) {
+                pge[i] = -1;
+            } else {
+                pge[i] = stack.peek();
             }
             stack.add(i);
         }
 
-        // System.out.println(Arrays.toString(nge));
+        // System.out.println(Arrays.toString(min_i));
+        // System.out.println(Arrays.toString(pge));
 
-        for(int i = n - 1; i >= 0; i--) {
-            int index = nge[i];
-            if (index != -1 && nums[i] > prefixMin[index]) return true;
+        for(int i = n - 1; i > 1; i--) {
+            int g_i = pge[i];
+            if (g_i == -1) continue;
+            if ( nums[min_i[g_i]] < nums[i]) return true;
         }
         return false;
     }
