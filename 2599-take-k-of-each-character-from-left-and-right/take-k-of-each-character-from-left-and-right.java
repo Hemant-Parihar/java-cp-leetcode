@@ -22,8 +22,6 @@ class Solution {
            return -1;
         }
         
-
-        // System.out.println(i);
         i--;
         int ans = Integer.MAX_VALUE;
 
@@ -42,7 +40,6 @@ class Solution {
             }
 
             if (a >= k && b >= k && c >= k) {
-                // System.out.println(j + " " + i);
                 ans = Math.min(ans, i + 1 + (n - (j + 1)) );
             }
             
@@ -53,16 +50,7 @@ class Solution {
             } else {
                 c++;
             }
-            
-            // System.out.println(a + " " + b + " " + c);
-            // System.out.println(i + " " + j);
 
-            if (a >= k && b >= k && c >= k) {
-                // System.out.println(j + " " + i);
-                ans = Math.min(ans, i + 1 + (n - j));
-            }
-
-            // System.out.println()
         }
 
         return ans;
