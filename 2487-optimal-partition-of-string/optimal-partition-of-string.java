@@ -2,18 +2,21 @@ class Solution {
     public int partitionString(String s) {
         int ans = 0;
         int n = s.length();
-        HashSet<Character> set = new HashSet<>();
+        int[] arr = new int[26];
 
         for(int i = 0; i < n; i++) {
-            if (set.contains(s.charAt(i))) {
+            if (arr[s.charAt(i) - 'a'] > 0) {
                 ans++;
-                set.clear();
+                Arrays.fill(arr, 0);
             }
-            set.add(s.charAt(i));
+            arr[s.charAt(i) - 'a']++;
         }
 
-        if (set.size() > 0) {
-            ans++;
+        for(int i = 0; i < 26; i++) {
+            if (arr[i] > 0) {
+                ans++;
+                break;
+            }
         }
         return ans;
     }
