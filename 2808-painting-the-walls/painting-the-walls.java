@@ -1,29 +1,23 @@
 class Solution {
-    int INT_MAX = 1000000007;
+    int INT_MAX = 1000000000;
     public int paintWalls(int[] cost, int[] time) {
-        int n = cost.length;
-        int[][] dp = new int[n+ 1][n + 1];
-        for(int i = 0; i <= n; i++) {
-            for(int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
+        int[][] dp = new int[501][501];
+        for(int i = 0; i < 501; i++) {
+            Arrays.fill(dp[i], -1);
         }
         return solve(0, 0, cost, time, dp);
     }
 
-    int solve(int i, int count, int[] cost, int[] time, int[][] dp) {
+    int solve(int i, int w, int[] cost, int[] time, int[][] dp) {
         int n = cost.length;
-        if ( count >= cost.length) return 0;
+        if (w >= n) return 0;
+        if (i == n) return INT_MAX;
 
-        if (i == cost.length) {
-            return INT_MAX;
-        }
+        if (dp[i][w] != -1) return dp[i][w];
 
-        if (dp[i][count] != -1) return dp[i][count]; 
-
-        return dp[i][count] = Math.min( 
-                cost[i] + solve(i + 1, Math.min(1 + count + time[i], n), cost, time, dp),
-                solve(i + 1, count, cost, time, dp)
-            );
+        return dp[i][w] =  Math.min(
+            cost[i] + solve(i + 1, w + time[i] + 1, cost, time, dp),
+            solve(i + 1, w, cost, time, dp)
+        );
     }
 }
