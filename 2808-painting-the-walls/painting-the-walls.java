@@ -1,8 +1,10 @@
 class Solution {
     int INT_MAX = 1000000000;
-    int[][] dp = new int[501][501];
+    
     public int paintWalls(int[] cost, int[] time) {
-        for(int i = 0; i < 501; i++) {
+        int n = cost.length;
+        int[][] dp = new int[n + 1][n + 1];
+        for(int i = 0; i <= n; i++) {
             Arrays.fill(dp[i], -1);
         }
         return solve(0, 0, cost, time, dp);
