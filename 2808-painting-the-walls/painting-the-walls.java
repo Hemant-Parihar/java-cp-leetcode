@@ -1,7 +1,7 @@
 class Solution {
     int INT_MAX = 1000000000;
+    int[][] dp = new int[501][501];
     public int paintWalls(int[] cost, int[] time) {
-        int[][] dp = new int[501][501];
         for(int i = 0; i < 501; i++) {
             Arrays.fill(dp[i], -1);
         }
