@@ -1,40 +1,51 @@
 class Solution {
+    
+    class Node {
+        int val;
+        int time;
+        Node(int v, int t) {
+            this.val = v;
+            this.time = t;
+        }
+    }
+
     public int minimumTime(int n, int[][] relations, int[] time) {
-        ArrayList[] adjList = new ArrayList[n+1];
-        int[] inDegree = new int[n+1];
+        ArrayList[] graph = new ArrayList[n + 1];
         for(int i = 1; i <= n; i++) {
-            adjList[i] = new ArrayList<>();
+            graph[i] = new ArrayList<Integer>();
         }
-
+        int[] inDegree = new int[n + 1];
         for(int i = 0; i < relations.length; i++) {
-            adjList[relations[i][0]].add(relations[i][1]);
-            inDegree[relations[i][1]]++;
+            int u = relations[i][0];
+            int v = relations[i][1];
+            graph[u].add(v);
+            inDegree[v]++;
         }
 
-        PriorityQueue<Pair<Integer, Integer>> heap = new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
-
-        int maxTime = 0;
+        PriorityQueue<Node> queue = new PriorityQueue<>( (a, b) -> a.time - b.time);
         for(int i = 1; i <= n; i++) {
             if (inDegree[i] == 0) {
-                heap.add(new Pair(i, 0 + time[i-1]));
+                queue.add(new Node(i, time[i - 1]));
             }
         }
 
-        while(!heap.isEmpty()) {
-            Pair<Integer, Integer> pair = heap.poll();
-            int node = pair.getKey();
-            int curr_time = pair.getValue();
-            maxTime = Math.max(maxTime, curr_time);
-            
-            for(int j = 0; j < adjList[node].size(); j++) {
-                int val = (int)adjList[node].get(j);
-                if (inDegree[val] == 1) {
-                    heap.add(new Pair(val, curr_time + time[val - 1]));
+        int ans = 0;
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+
+            for(int i = 0; i < size; i++) {
+                Node node = queue.poll();
+                ans = Math.max(ans, node.time);
+                for(int j = 0; j < graph[node.val].size(); j++) {
+                    int val = (int) graph[node.val].get(j);
+                    inDegree[val]--;
+                    if (inDegree[val] == 0) {
+                        queue.add(new Node(val, node.time + time[val - 1]));
+                    }
                 }
-                inDegree[val]--;
             }
         }
 
-        return maxTime;
+        return ans;
     }
 }
