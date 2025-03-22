@@ -15,8 +15,8 @@ class Solution {
         if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || ans[i][j] <= cost) {
             return;
         }
-        if (cost > 200) return;
-        
+        if (cost > (grid.length + grid[0].length)) return;
+
         ans[i][j] = cost;
         if (grid[i][j] == 1) {
             solve(i + 1, j, cost + 1, grid, ans);
