@@ -1,35 +1,27 @@
 class Solution {
     public long maximumTripletValue(int[] nums) {
-        int n = nums.length;
-        long ans = 0;
-        int min = nums[0];
-        int max = nums[0];
-    
-        List<Pair<Integer, Integer>> list = new ArrayList<>();
-        
+        int n = nums.length; 
+        int[] l_max = new int[n];
+        int[] r_max = new int[n];
+
+        l_max[0] = nums[0];
         for(int i = 1; i < n; i++) {
-            for(int j = 0; j < list.size(); j++) {
-                int diff = list.get(j).getKey() - list.get(j).getValue();
-                ans = Math.max(ans, (long)diff*nums[i]);
-            }
-            ans = Math.max(ans, (long)(max - min)*nums[i]);
-            if (nums[i] < min) {
-                List<Pair<Integer, Integer>> newList = new ArrayList<>();
-                for(int j = 0; j< list.size(); j++) {
-                    if (list.get(j).getValue() < min) {
-                        newList.add(list.get(j));
-                    }
-                }
-                list = newList;
-                min = nums[i];
-            } else if (nums[i] > max) {
-                int diff = max - min;
-                if (diff > 0)
-                    list.add(new Pair(max, min));
-                max = nums[i];
-                min = nums[i];
-            }
+            l_max[i] = Math.max(l_max[i - 1], nums[i]);
         }
+
+        r_max[n - 1] = nums[n - 1];
+        for(int i = n - 2; i >= 0; i--) {
+            r_max[i] = Math.max(r_max[i + 1], nums[i]);
+        }
+
+        // System.out.println(Arrays.toString(l_max));
+        // System.out.println(Arrays.toString(r_max));
+
+        long ans = 0;
+        for(int i = 1; i < n - 1; i++) {
+            ans = Math.max(ans, (long) (l_max[i - 1] - nums[i]) * r_max[i + 1] );
+        }
+
         return ans;
     }
 }
