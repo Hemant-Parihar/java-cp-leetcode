@@ -4,11 +4,7 @@ class Solution {
         if (n == 1) return 0;
         Arrays.sort(nums);
         int mid;
-        if (n % 2 == 0) {
-            mid = nums[n / 2 - 1];
-        } else {
-            mid = nums[n / 2];
-        }
+        mid = nums[n / 2];
         
 
         int ans = 0;
