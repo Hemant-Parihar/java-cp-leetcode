@@ -14,65 +14,43 @@
  * }
  */
 class Solution {
+
+    TreeNode ans = null;
     public TreeNode lcaDeepestLeaves(TreeNode root) {
-        TreeNode[] parents = new TreeNode[1001];
-        int max_depth = getDepth(root, parents);
-        
-        List<TreeNode> list = new ArrayList<>();
-
-        getAllDeepestLeaves(root, list, 0, max_depth);
-
-        // for(int i = 0; i < list.size(); i++) {
-        //     System.out.println(list.get(i).val);
-        // }
-
-        while(list.size() > 1) {
-            HashSet<Integer> newSet = new HashSet<>();
-            List<TreeNode> newList = new ArrayList<>();
-            for(TreeNode node: list) {
-                if (node == root) return node;
-                int val = node.val;
-                if (!newSet.contains(parents[val].val)) {
-                    newSet.add(parents[val].val);
-                    newList.add(parents[val]);
-                }
-            }
-            list = newList;
-
-            // for(int i = 0; i < list.size(); i++) {
-            //     System.out.println(list.get(i).val);
-            // }
-            // System.out.println("==================");
-        }
-
-
-        return list.get(0);
+        int[] depth = new int[1001];
+        int maxDepth = getDepth(root, depth);
+        solve(root, 0, maxDepth, depth);
+        return ans;
     }
 
-    int getDepth(TreeNode node, TreeNode[] parents) {
+    int getDepth(TreeNode node, int[] depth) {
         if (node == null) return 0;
+        int left = getDepth(node.left, depth);
+        int right = getDepth(node.right, depth);
+        
+        return depth[node.val] = 1 + Math.max(left, right);
+    }
+
+    int solve(TreeNode node, int d, int maxDepth, int[] depth) {
+        if (node == null) return 0;
+        d = d + 1;
+        int left, right;
+        left = right = 0;
 
         if (node.left != null) {
-            parents[node.left.val] = node;
+            left = solve(node.left, d, maxDepth, depth);
         }
 
         if (node.right != null) {
-            parents[node.right.val] = node;
+            right = solve(node.right, d, maxDepth, depth);
         }
 
-        int left = getDepth(node.left, parents);
-        int right = getDepth(node.right, parents);
+        // System.out.println(node.val + " " + left + " " + right + " " + d + " " + maxDepth);
+
+        if (left == right && ( (d + left) == maxDepth)) {
+            ans = node;
+        }
+
         return 1 + Math.max(left, right);
-    }
-
-    void getAllDeepestLeaves(TreeNode node, List<TreeNode> list, int d, int max_depth) {
-        if (node == null) return;
-        d = d + 1;
-        if (max_depth == d) {
-            list.add(node);
-            return;
-        }
-        getAllDeepestLeaves(node.left, list, d, max_depth);
-        getAllDeepestLeaves(node.right, list, d, max_depth);
     }
 }
