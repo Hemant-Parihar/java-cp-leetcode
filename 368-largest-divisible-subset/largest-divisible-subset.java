@@ -1,46 +1,35 @@
 class Solution {
-    public List<Integer> largestDivisibleSubset(int[] nums) {
-        int n = nums.length;
-        Arrays.sort(nums);
-        
-        ArrayList[] map = new ArrayList[n];
-
-        ArrayList<Integer> ans = new ArrayList<>();
-        for(int i = 0; i < n; i++) {
-            ArrayList<Integer> temp = solve(i, nums, map);
-            if (temp.size() > ans.size()) {
-                ans = temp;
+  // if we sort the array, every element in a divisibleSubset can be divisible by the element just before it.
+// for any element k, its largestDivisibleSubset that ends with k can be formed in the following way: 
+// use element k after any one of the previous elements that is divisble 
+public List<Integer> largestDivisibleSubset(int[] nums) {
+    int[] l = new int[nums.length]; // the length of largestDivisibleSubset that ends with element i
+    int[] prev = new int[nums.length]; // the previous index of element i in the largestDivisibleSubset ends with element i
+    
+    Arrays.sort(nums);
+    
+    int max = 0;
+    int index = -1;
+    for (int i = 0; i < nums.length; i++){
+        l[i] = 1;
+        prev[i] = -1;
+        for (int j = i - 1; j >= 0; j--){
+            if (nums[i] % nums[j] == 0 && l[j] + 1 > l[i]){
+                l[i] = l[j] + 1;
+                prev[i] = j;
             }
         }
-        List<Integer> final_ans = new ArrayList<>();
-        final_ans.addAll(ans);
-        return final_ans;
-    }
-
-    ArrayList<Integer> solve(int i, int[] nums, ArrayList[] map) {
-        if (i >= nums.length) return new ArrayList<>();
-        // if (i == nums.length - 1) return new ArrayList<>(List.of(nums[i]));
-
-        if (map[i] != null) {
-            return map[i];
+        if (l[i] > max){
+            max = l[i];
+            index = i;
         }
-
-        ArrayList<Integer> ans = new ArrayList<>();
-        ans.add(nums[i]);
-        ArrayList<Integer> global_temp_list = new ArrayList<>();
-
-        for(int j = i + 1; j < nums.length; j++) {
-            
-            if (nums[j] % nums[i] == 0) {
-                ArrayList<Integer> temp_list = solve(j, nums, map);
-                if (temp_list.size() > global_temp_list.size()) {
-                    global_temp_list = temp_list;
-                }
-            }
-        }
-
-        ans.addAll(global_temp_list);
-        map[i] = ans;
-        return ans;
     }
+    List<Integer> res = new ArrayList<Integer>();
+    while (index != -1){
+        res.add(nums[index]);
+        index = prev[index];
+    }
+    return res;
+}
+
 }
