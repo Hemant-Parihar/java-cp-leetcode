@@ -16,29 +16,23 @@ class Solution {
         Arrays.sort(l2, (a, b) -> Integer.compare(a[0], b[0]));
 
         int count1 = 0;
-        int end = l1[0][1];
+        int end1 = l1[0][1];
+        int end2 = l2[0][1];
         int count2 = 0;
         for(int i = 0; i < size - 1; i++) {
-            if (end <= l1[i + 1][0]) {
+            if (end1 <= l1[i + 1][0]) {
                 count1++;
             }
-            end = Math.max(end, l1[i + 1][1]);
+            end1 = Math.max(end1, l1[i + 1][1]);
             if (count1 > 1) return true;
-        }
 
-        if (count1 > 1) {
-            return true;
-        }
-
-        end = l2[0][1];
-        for(int i = 0; i < size - 1; i++) {
-            if (end <= l2[i + 1][0]) {
+            if (end2 <= l2[i + 1][0]) {
                 count2++;
             }
-            end = Math.max(end, l2[i + 1][1]);
+            end2 = Math.max(end2, l2[i + 1][1]);
             if (count2 > 1) return true;
         }
-        if (count2 > 1) return true;
+
         return false;
     }
 }
