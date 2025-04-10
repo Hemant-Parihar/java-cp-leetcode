@@ -23,6 +23,7 @@ class Solution {
                 count1++;
             }
             end = Math.max(end, l1[i + 1][1]);
+            if (count1 > 1) return true;
         }
 
         if (count1 > 1) {
@@ -35,6 +36,7 @@ class Solution {
                 count2++;
             }
             end = Math.max(end, l2[i + 1][1]);
+            if (count2 > 1) return true;
         }
         if (count2 > 1) return true;
         return false;
