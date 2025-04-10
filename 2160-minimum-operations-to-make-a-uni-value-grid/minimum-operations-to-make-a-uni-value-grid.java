@@ -14,14 +14,16 @@ class Solution {
 
         n = nums.length;
         Arrays.sort(nums);
-        // System.out.println(Arrays.toString(nums));
 
-        int val = nums[0] % x;
-        for(int i = 1; i < n; i++) {
-            if ( nums[i] % x != val ) {
-                // System.out.println(nums[i] + " " + val + " " + (nums[i] % x));
-                return -1;  
-            };
+        // int val = nums[0] % x;
+        // for(int i = 1; i < n; i++) {
+        //     if ( nums[i] % x != val ) {
+        //         return -1;  
+        //     };
+        // }
+
+        for(int i = 0; i < n - 1; i++) {
+            if ( (nums[i + 1] - nums[i]) % x != 0 ) return -1;
         }
 
         int mid;
@@ -34,8 +36,6 @@ class Solution {
         //     mid = nums[n / 2];
         // }
         mid = nums[n / 2];
-
-        // System.out.println(mid);
 
         int ans = 0;
         for(int i = 0; i < n; i++) {
