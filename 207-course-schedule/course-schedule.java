@@ -1,44 +1,48 @@
 class Solution {
-    public boolean canFinish(int n, int[][] arr) {
+    public boolean canFinish(int n, int[][] pre) {
         ArrayList[] graph = new ArrayList[n];
+
         for(int i = 0; i < n; i++) {
             graph[i] = new ArrayList<Integer>();
         }
 
         int[] inDegree = new int[n];
 
-        for(int i = 0; i < arr.length; i++) {
-            int b = arr[i][1];
-            int a = arr[i][0];
-            inDegree[a]++;
+        for(int i = 0; i < pre.length; i++) {
+            int a = pre[i][0];
+            int b = pre[i][1];
             graph[b].add(a);
+            inDegree[a]++;
         }
 
-        boolean[] visited = new boolean[n];
-        Queue<Integer> queue = new LinkedList<Integer>();
+        Queue<Integer> queue = new LinkedList<>();
+        // boolean v[] = new boolean[n];
 
         for(int i = 0; i < n; i++) {
             if (inDegree[i] == 0) {
                 queue.add(i);
-                visited[i] = true;
+                // v[i] = true;
             }
         }
 
+        int count = 0;
         while(!queue.isEmpty()) {
-            int node = queue.remove();
+
+            int node = queue.poll();
+            count++;
+
             for(int i = 0; i < graph[node].size(); i++) {
-                int a = (int) graph[node].get(i);
-                inDegree[a]--;
-                if (inDegree[a] == 0) {
-                    queue.add(a);
-                    visited[a] = true;
+                int newNode = (int) graph[node].get(i);
+                inDegree[newNode]--;
+                if (inDegree[newNode] == 0) {
+                    queue.add(newNode);
                 }
             }
+
+
         }
 
-        for(int i = 0; i < n; i++) {
-            if (visited[i] == false) return false;
-        }
-        return true;
+        if (count == n) return true;
+        return false;
     }
 }
