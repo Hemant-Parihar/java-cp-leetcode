@@ -21,13 +21,6 @@ class TreeAncestor {
                 }
             }
         }
-
-        for(int i = 0; i < MAX_ROW; i++) {
-            for(int j = 0; j < n; j++) {
-                System.out.print(table[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
     
     public int getKthAncestor(int node, int k) {
