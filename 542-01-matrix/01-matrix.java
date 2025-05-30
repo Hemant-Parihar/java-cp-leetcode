@@ -13,39 +13,45 @@ class Solution {
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 if (mat[i][j] == 0) {
-                    pq.add(new int[]{0, i, j});
+                    pq.add(new int[]{i, j});
                     dis[i][j] = 0;
                 }
             }
         }
 
+        int level = 0;
+
         while(!pq.isEmpty()) {
 
-            int[] node = (int[]) pq.poll();
-            int d = node[0];
-            int i = node[1];
-            int j = node[2];
+            int size = pq.size();
+            level++;
+            for(int k = 0; k < size; k++) {
+                
+                int[] node = (int[]) pq.poll();
+                int i = node[0];
+                int j = node[1];
 
-            if (i + 1 < m && dis[i + 1][j] > (d + 1)) {
-                dis[i + 1][j] = d + 1;
-                pq.add(new int[]{d + 1, i + 1, j});
+                if (i + 1 < m && dis[i + 1][j] > level) {
+                    dis[i + 1][j] = level;
+                    pq.add(new int[]{i + 1, j});
+                }
+
+                if (i - 1 >= 0 && dis[i - 1][j] > level) {
+                    dis[i - 1][j] = level;
+                    pq.add(new int[]{i - 1, j});
+                }
+
+                if (j + 1 < n && dis[i][j + 1] > level) {
+                    dis[i][j + 1] = level;
+                    pq.add(new int[]{i, j + 1});
+                }
+
+                if (j - 1 >= 0 && dis[i][j - 1] > level) {
+                    dis[i][j - 1] = level;
+                    pq.add(new int[]{i, j - 1});
+                }
+
             }
-
-            if (i - 1 >= 0 && dis[i - 1][j] > (d + 1)) {
-                dis[i - 1][j] = d + 1;
-                pq.add(new int[]{d + 1, i - 1, j});
-            }
-
-            if (j + 1 < n && dis[i][j + 1] > (d + 1)) {
-                dis[i][j + 1] = d + 1;
-                pq.add(new int[]{d + 1, i, j + 1});
-            }
-
-            if (j - 1 >= 0 && dis[i][j - 1] > (d + 1)) {
-                dis[i][j - 1] = d + 1;
-                pq.add(new int[]{d + 1, i, j - 1});
-            }
-
         }
 
         return dis;
