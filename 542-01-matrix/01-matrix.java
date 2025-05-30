@@ -3,7 +3,7 @@ class Solution {
         int m = mat.length;
         int n = mat[0].length;
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>( (a, b) -> Integer.compare(a[0], b[0]) );
+        Queue<int[]> pq = new LinkedList<>();
         int[][] dis = new int[m][n];
 
         for(int i = 0; i < m; i++) {
@@ -20,6 +20,7 @@ class Solution {
         }
 
         while(!pq.isEmpty()) {
+
             int[] node = (int[]) pq.poll();
             int d = node[0];
             int i = node[1];
