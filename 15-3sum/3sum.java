@@ -4,8 +4,6 @@ class Solution {
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
 
-        HashSet<List<Integer>> ansSet = new HashSet<>();
-
         int prev_i = Integer.MIN_VALUE;
         int prev_j = Integer.MIN_VALUE;
 
@@ -19,9 +17,11 @@ class Solution {
             while(j < k) {
                 int val = nums[i] + nums[j] + nums[k];
                 if (val == 0) {
-                    ansSet.add(new ArrayList<>(List.of(nums[i], nums[j], nums[k])));
+                    ans.add(new ArrayList<>(List.of(nums[i], nums[j], nums[k])));
                     j++;
-                    k--;
+                    while(nums[j] == nums[j-1] && j < k) {
+                        j++;
+                    }
                 } else if (val < 0) {
                     j++;
                 } else {
@@ -30,12 +30,6 @@ class Solution {
             }
 
             prev_i = nums[i];
-        }
-
-        // System.out.println(ansSet);
-
-        for(List<Integer> list : ansSet) {
-            ans.add(list);
         }
 
         return ans;
