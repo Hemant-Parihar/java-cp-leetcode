@@ -1,53 +1,39 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
 
-        // System.out.println(Arrays.toString(nums));
+        HashSet<List<Integer>> ansSet = new HashSet<>();
 
-        int prev = Integer.MIN_VALUE;
-        for(int i = 0; i < nums.length; i++) {
-            if (prev == nums[i]) continue;
-            int s = i + 1;
-            int e = nums.length - 1;
-            int target = 0 - nums[i];
+        int prev_i = Integer.MIN_VALUE;
+        int prev_j = Integer.MIN_VALUE;
 
-            while(s < e) {
-                if (nums[s] + nums[e] > target) {
-                    int temp = nums[e];
-                    e = e - 1;
-                    while (e - 1 > s && nums[e] == temp) {
-                        e = e - 1;
-                    }
-                } else if (nums[s] + nums[e] < target) {
-                    int temp = nums[s];
-                    s = s + 1;
-                    while(s + 1 < e && nums[s] == temp) {
-                        s = s + 1;
-                    }
-                } else if (s < e) {
-                    List<Integer> list = new ArrayList<>();
-                    // System.out.println(i + " " + s + " " + e);
-                    list.add(nums[i]);
-                    list.add(nums[s]);
-                    list.add(nums[e]);
-                    ans.add(list);
+        for(int i = 0; i < n - 2; i++) {
 
-                    int temp = nums[e];
-                    e = e - 1;
-                    while (e - 1 > s && nums[e] == temp) {
-                        e = e - 1;
-                    }
+            if (nums[i] == prev_i) continue;
 
-                    temp = nums[s];
-                    s = s + 1;
-                    while(s + 1 < e && nums[s] == temp) {
-                        s = s + 1;
-                    }
+            HashSet<Integer> set = new HashSet<>();
+
+            for(int j = i + 1; j < n; j++) {
+                
+                int val = -(nums[i] + nums[j]);
+                if (set.contains(val)) {
+                    ansSet.add(new ArrayList<>(List.of(nums[i], val, nums[j])));
                 }
+
+                set.add(nums[j]);
             }
-            prev = nums[i];
+
+            prev_i = nums[i];
         }
+
+        // System.out.println(ansSet);
+
+        for(List<Integer> list : ansSet) {
+            ans.add(list);
+        }
+
         return ans;
     }
 }
