@@ -13,16 +13,20 @@ class Solution {
 
             if (nums[i] == prev_i) continue;
 
-            HashSet<Integer> set = new HashSet<>();
+            int j = i + 1;
+            int k = n - 1;
 
-            for(int j = i + 1; j < n; j++) {
-                
-                int val = -(nums[i] + nums[j]);
-                if (set.contains(val)) {
-                    ansSet.add(new ArrayList<>(List.of(nums[i], val, nums[j])));
+            while(j < k) {
+                int val = nums[i] + nums[j] + nums[k];
+                if (val == 0) {
+                    ansSet.add(new ArrayList<>(List.of(nums[i], nums[j], nums[k])));
+                    j++;
+                    k--;
+                } else if (val < 0) {
+                    j++;
+                } else {
+                    k--;
                 }
-
-                set.add(nums[j]);
             }
 
             prev_i = nums[i];
