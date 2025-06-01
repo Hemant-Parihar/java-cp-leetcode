@@ -27,8 +27,7 @@ class Solution {
         int[][] ans = new int[m][2];
 
         for(int i = 0; i < m; i++) {
-            ans[i][0] = list.get(i)[0];
-            ans[i][1] = list.get(i)[1];
+            ans[i] = list.get(i);
         }
 
         return ans;
