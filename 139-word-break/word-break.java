@@ -1,41 +1,38 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        int[] dp = new int[s.length()];
+        HashSet<String> set = new HashSet<>();
+        set.addAll(wordDict);
+        int n = s.length();
+        int[] dp = new int[n];
+
         Arrays.fill(dp, -1);
-        return solve(0, s, wordDict, dp);
+
+        return solve(0, s, set, dp);
     }
 
-    boolean solve(int i, String s, List<String> wordDict, int[] dp) {
-        if (i >= s.length()) return true;
-        if (dp[i] != -1) {
-            if (dp[i] == 1) return true;
+    boolean solve(int index, String s, HashSet<String> set, int[] dp) {
+        int n = s.length();
+        if (index == n) return true;
+
+        if (dp[index] != -1) {
+            if (dp[index] == 1) return true;
             else return false;
         }
-        for(int j = 0; j < wordDict.size(); j++) {
-            if (match(i, s, wordDict.get(j))) {
-                int len = wordDict.get(j).length();
-                boolean val = solve(i + len, s, wordDict, dp);
+
+        boolean val = false;
+        StringBuilder str = new StringBuilder();
+        for(int i = index; i < n; i++) {
+            str.append(s.charAt(i));
+            if (set.contains(str.toString())) {
+                val = solve(i + 1, s, set, dp);
                 if (val == true) {
-                    dp[i] = 1;
+                    dp[index] = 1;
                     return true;
                 }
             }
         }
-        dp[i] = 0;
-        return false;
-    }
 
-    boolean match(int i, String s, String word) {
-        int len = word.length();
-        int j;
-        for(j = 0; j < len && i + j < s.length(); j++) {
-            if (s.charAt(i + j) != word.charAt(j)) {
-                return false;
-            }
-        }
-        if (j == len)
-            return true;
-        else
-            return false;
+        dp[index] = (val) ? 1 : 0;
+        return val;
     }
 }
