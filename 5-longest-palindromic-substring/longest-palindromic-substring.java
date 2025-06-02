@@ -1,43 +1,39 @@
 class Solution {
     public String longestPalindrome(String s) {
         int n = s.length();
-        int ans = 1;
-        int start = 0;
-        int end = 0;
-        for(int i = 1; i < n; i++) {
-            int j = i - 1;
-            int k = i + 1;
-            while(j >= 0 && k < n && s.charAt(j) == s.charAt(k)) {
-                j--;
-                k++;
-            }
-            if (k - j - 1 > ans) {
-                ans = Math.max(ans, k - j - 1);
-                start = j + 1;
-                end = k - 1;
-            }
+
+        String ans = "";
+        int len = 0;
+        for(int k = 0; k < n; k++) {
+            int i = k - 1;
+            int j = k + 1;
             
-        }
-
-        for(int i = 1; i < n; i++) {
-            int j = i - 1;
-            int k = i;
-            while(j >= 0 && k < n && s.charAt(j) == s.charAt(k)) {
-                j--;
-                k++;
+            while(i >= 0 && j < n && s.charAt(i) == s.charAt(j)) {
+                i--;
+                j++;
             }
-            if (k - j - 1 > ans) {
-                ans = Math.max(ans, k - j - 1);
-                start = j + 1;
-                end = k - 1;
+
+            if (j - i - 1 > len) {
+                ans = s.substring(i + 1, j);
+                len = ans.length();
             }
         }
 
-        StringBuilder str = new StringBuilder();
-        for(int i = start; i <= end; i++) {
-            str.append(s.charAt(i));
+        for(int k = 0; k < n; k++) {
+            int i = k;
+            int j = k + 1;
+            
+            while(i >= 0 && j < n && s.charAt(i) == s.charAt(j)) {
+                i--;
+                j++;
+            }
+
+            if (j - i - 1 > len) {
+                ans = s.substring(i + 1, j);
+                len = ans.length();
+            }
         }
 
-        return str.toString();
+        return ans;
     }
 }
