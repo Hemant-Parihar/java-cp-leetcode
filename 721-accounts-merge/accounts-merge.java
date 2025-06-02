@@ -25,8 +25,6 @@ class Solution {
             }
         }
 
-        System.out.println(Arrays.toString(parent));
-
         HashMap<Integer, HashSet<String>> ansMap = new HashMap<>();
         HashMap<Integer, String> nameMap = new HashMap<>();
 
