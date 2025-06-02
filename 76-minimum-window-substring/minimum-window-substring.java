@@ -1,59 +1,47 @@
 class Solution {
     public String minWindow(String s, String t) {
-        int[] t_f = new int[52];
-
-        for(int i = 0; i < t.length(); i++) {
+        int m = t.length();
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < m; i++) {
             char ch = t.charAt(i);
-            if (ch >= 'A' && ch <= 'Z') {
-                t_f[ch - 'A']++;
+            if (map.containsKey(ch)) {
+                map.put(ch, map.get(ch) + 1);
             } else {
-                t_f[ch - 'a' + 26]++;
+                map.put(ch, 1);
             }
         }
 
-        // System.out.println(Arrays.toString(t_f));
-
+        int count = 0;
         int i = 0;
-        int j = 0;
-        String ans = null;
+        int j;
+        int len = Integer.MAX_VALUE;
+        String ans = "";
 
-        int[] s_f = new int[52];
-
-        while(j < s.length()) {
-
+        for(j = 0; j < s.length(); j++) {
             char ch = s.charAt(j);
-            if (ch >= 'A' && ch <= 'Z') {
-                s_f[ch - 'A']++;
-            } else {
-                s_f[ch - 'a' + 26]++;
-            }
-
-            j++;
-            if (j - i >= t.length()) {
-                while(compare(s_f, t_f)) {
-                    if (ans == null || ans.length() > (j - i)) {
-                        ans = s.substring(i, j);
+            if (map.containsKey(ch)) {
+                if (map.get(ch) > 0) {
+                    count++;
+                }
+                map.put(ch, map.get(ch) - 1);
+                while (count == m) {
+                    if (len > (j - i + 1)) {
+                        len = j - i + 1;
+                        ans = s.substring(i, j + 1);
                     }
-
-                    char temp = s.charAt(i);
-                    if (temp >= 'A' && temp <= 'Z') {
-                        s_f[temp - 'A']--;
-                    } else {
-                        s_f[temp - 'a' + 26]--;
+                    char ch_p = s.charAt(i);
+                    if (map.containsKey(ch_p)) {
+                        map.put(ch_p, map.get(ch_p) + 1);
+                        if (map.get(ch_p) > 0) {
+                            count--;
+                        }
                     }
-
                     i++;
                 }
             }
         }
-        if (ans == null) return "";
-        return ans;
-    }
 
-    boolean compare(int[] s_f, int[] t_f) {
-        for(int i = 0; i < 52; i++) {
-            if (t_f[i] > s_f[i]) return false;
-        }
-        return true;
+
+        return ans;
     }
 }
