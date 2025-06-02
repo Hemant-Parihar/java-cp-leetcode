@@ -11,6 +11,8 @@ class Solution {
         int j;
         int len = Integer.MAX_VALUE;
         String ans = "";
+        int start, end;
+        start = end = 0;
 
         for(j = 0; j < s.length(); j++) {
             char ch = s.charAt(j);
@@ -21,7 +23,8 @@ class Solution {
             while (count == m) {
                 if (len > (j - i + 1)) {
                     len = j - i + 1;
-                    ans = s.substring(i, j + 1);
+                    start = i;
+                    end = j + 1;
                 }
                 char ch_p = s.charAt(i);
                 arr[ch_p]++;
@@ -33,6 +36,6 @@ class Solution {
         }
 
 
-        return ans;
+        return (len == Integer.MAX_VALUE) ? "" : s.substring(start, end);
     }
 }
