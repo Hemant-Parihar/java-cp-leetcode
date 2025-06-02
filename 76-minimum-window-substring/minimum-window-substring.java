@@ -2,8 +2,7 @@ class Solution {
     public String minWindow(String s, String t) {
         int m = t.length();
         int[] arr = new int[128];
-        for(int i = 0; i < m; i++) {
-            char ch = t.charAt(i);
+        for(char ch : t.toCharArray()) {
             arr[ch]++;
         }
 
