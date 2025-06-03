@@ -1,52 +1,52 @@
 class Solution {
 
+    class Node {
+        int val;
+        int index;
+        Node(int v, int i) {
+            this.val = v;
+            this.index = i;
+        }
+        @Override
+        public String toString() {
+            return val + " " + index + " !. ";
+        }
+    }
+
     public int largestRectangleArea(int[] heights) {
         int n = heights.length;
-        int[] pse = new int[n];
-        int[] nse = new int[n];
+        List<Node> list = new ArrayList<>();
 
-        Stack<Integer> stack = new Stack<>();
-
+        int area = 0;
         for(int i = 0; i < n; i++) {
-            while(!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
-                // we don't need this element any more.
-                stack.pop();
+            area = Math.max(area, heights[i]);
+
+            int index = i;
+
+
+            while(list.size() > 0 && list.get(list.size() - 1).val >= heights[i]) {
+                Node node = list.remove(list.size() - 1);
+                index = node.index;
+                area = Math.max(area, heights[i] * (i - index + 1));
             }
 
-            if (stack.isEmpty()) {
-                pse[i] = -1;
-            } else {
-                pse[i] = stack.peek();
+            for(int j = 0; j < list.size(); j++) {
+                Node node = list.get(j);
+                area = Math.max(area, node.val * (i - node.index + 1));
             }
 
-            stack.add(i);
+            Node newNode = new Node(heights[i], index);
+            list.add(newNode);
         }
 
-        // System.out.println(Arrays.toString(pse));
+        // System.out.println(stack);
 
-        stack.clear();
+        // while(stack.size() > 1) {
+        //     Node node = stack.pop();
+        //     area = Math.max(area, stack.peek().val * (node.index - stack.peek().index + 1));
+        //     stack.peek().index = node.index;
+        // }
 
-        for(int i = n - 1; i >= 0; i--) {
-            while(!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
-                stack.pop();
-            }
-
-            if (stack.isEmpty()) {
-                nse[i] = n;
-            } else {
-                nse[i] = stack.peek();
-            }
-
-            stack.add(i);
-        }
-
-        // System.out.println(Arrays.toString(nse));
-
-        int ans = 0;
-        for(int i = 0; i < n; i++) {
-            ans = Math.max(ans, heights[i] * (i - pse[i] - 1) + heights[i] * (nse[i] - i) );
-        }
-
-        return ans;
+        return area;
     }
 }
