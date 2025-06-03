@@ -1,51 +1,45 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-
-        HashSet<String> set = new HashSet<>();
-
-        for(int i = 0; i < wordList.size(); i++) {
-            set.add(wordList.get(i));
-        }
-
-        if (!set.contains(endWord)) return 0;
-        if (beginWord.equals(endWord)) return 0;
+        int n = wordList.size();
 
         Queue<String> queue = new LinkedList<>();
-        HashSet<String> v = new HashSet<>();
+        HashSet<String> done = new HashSet<>();
 
-        v.add(beginWord);
-        queue.add(beginWord);
+        for(int i = 0; i < n; i++) {
+            if (matched(beginWord, wordList.get(i))) {
+                queue.add(wordList.get(i));
+                done.add(wordList.get(i));
+            }
+        }
 
-        int level = 1;
-
-        while( !queue.isEmpty() ) {
+        int len = 1;
+        while(!queue.isEmpty()) {
             int size = queue.size();
-            level++;
+            len++;
+            for(int i = 0; i < size; i++) {
+                String str = queue.poll();
 
-            for(int k = 0; k < size; k++) {
-                String s = queue.remove();
-                StringBuilder str = new StringBuilder(s);
+                if (str.equals(endWord)) return len;
 
-                for(int i = 0; i < str.length(); i++) {
-                    char ch = str.charAt(i);
-                    for(int j = 0; j < 26; j++) {
-                        str.setCharAt(i, (char) ('a' + j) );
-
-                        if (str.toString().equals(endWord)) {
-                            return level;
-                        }
-
-                        if (set.contains(str.toString()) && !v.contains(str.toString()) ) {
-                            v.add(str.toString());
-                            queue.add(str.toString());
-                        }
+                for(int j = 0; j < n; j++) {
+                    if (!done.contains(wordList.get(j)) && matched(str, wordList.get(j))) {
+                        done.add(wordList.get(j));
+                        queue.add(wordList.get(j));
                     }
-                    str.setCharAt(i, ch);
                 }
             }
-
         }
 
         return 0;
+    }
+
+    boolean matched(String s1, String s2) {
+        int diff = 0;
+        for(int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                diff++;
+            }
+        }
+        return diff == 1 ? true : false;
     }
 }
