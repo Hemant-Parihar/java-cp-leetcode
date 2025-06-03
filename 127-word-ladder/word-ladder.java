@@ -2,17 +2,16 @@ class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         int n = wordList.size();
 
+        HashSet<String> wordSet = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         HashSet<String> done = new HashSet<>();
 
-        for(int i = 0; i < n; i++) {
-            if (matched(beginWord, wordList.get(i))) {
-                queue.add(wordList.get(i));
-                done.add(wordList.get(i));
-            }
-        }
+        wordSet.addAll(wordList);
 
-        int len = 1;
+        queue.add(beginWord);
+        done.add(beginWord);
+
+        int len = 0;
         while(!queue.isEmpty()) {
             int size = queue.size();
             len++;
@@ -21,10 +20,23 @@ class Solution {
 
                 if (str.equals(endWord)) return len;
 
-                for(int j = 0; j < n; j++) {
-                    if (!done.contains(wordList.get(j)) && matched(str, wordList.get(j))) {
-                        done.add(wordList.get(j));
-                        queue.add(wordList.get(j));
+                char[] charArr = new char[str.length()];
+                for(int j = 0; j < str.length(); j++) {
+                    charArr[j] = str.charAt(j);
+                }
+
+                for(int j = 0; j < str.length(); j++) {
+                    char ch = charArr[j];
+                    for(int k = 0; k < 26; k++) {
+                        if (ch != (char)('a' + k)) {
+                            charArr[j] = (char)('a' + k);
+                            String newStr = new String(charArr);
+                            if (wordSet.contains(newStr) && !done.contains(newStr)) {
+                                queue.add(newStr);
+                                done.add(newStr);
+                            }
+                            charArr[j] = ch;
+                        }
                     }
                 }
             }
