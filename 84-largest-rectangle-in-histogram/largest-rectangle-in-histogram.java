@@ -3,49 +3,34 @@ class Solution {
     class Node {
         int val;
         int index;
-        Node(int v, int i) {
-            this.val = v;
-            this.index = i;
-        }
-        @Override
-        public String toString() {
-            return val + " " + index + " !. ";
+        Node(int val, int index) {
+            this.val = val;
+            this.index = index;
         }
     }
 
     public int largestRectangleArea(int[] heights) {
         int n = heights.length;
-        List<Node> list = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
 
         int area = 0;
+        int index = 0;
         for(int i = 0; i < n; i++) {
-            area = Math.max(area, heights[i]);
-
-            int index = i;
-
-
-            while(list.size() > 0 && list.get(list.size() - 1).val >= heights[i]) {
-                Node node = list.remove(list.size() - 1);
+            index = i;
+            while(!stack.isEmpty() && stack.peek().val >= heights[i]) {
+                Node node = stack.pop();
+                area = Math.max(area, node.val * (i - node.index));
                 index = node.index;
-                area = Math.max(area, heights[i] * (i - index + 1));
             }
 
-            for(int j = 0; j < list.size(); j++) {
-                Node node = list.get(j);
-                area = Math.max(area, node.val * (i - node.index + 1));
-            }
-
-            Node newNode = new Node(heights[i], index);
-            list.add(newNode);
+            area = Math.max(area, heights[i] * (i - index));
+            stack.add(new Node(heights[i], index));
         }
 
-        // System.out.println(stack);
-
-        // while(stack.size() > 1) {
-        //     Node node = stack.pop();
-        //     area = Math.max(area, stack.peek().val * (node.index - stack.peek().index + 1));
-        //     stack.peek().index = node.index;
-        // }
+        while(!stack.isEmpty()) {
+            Node node = stack.pop();
+            area = Math.max(area, node.val * (n - node.index));
+        }
 
         return area;
     }
