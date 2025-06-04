@@ -9,6 +9,11 @@ class Solution {
             this.end = e;
             this.pro = p;
         }
+
+        @Override
+        public String toString() {
+            return start + " " + end + " " + pro + " . ";
+        }
     }
 
     public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
@@ -24,13 +29,14 @@ class Solution {
 
         Arrays.sort(arr, (a, b) -> Integer.compare(a.end, b.end));
 
+        // System.out.println(Arrays.toString(arr));
+
         ans[0] = arr[0].pro;
 
         for(int i = 1; i < n; i++) {
             int j = i - 1;
-            while(j >= 0 && arr[j].end > arr[i].start) {
-                j--;
-            }
+
+            j = binarySearch(0, j, arr[i].start, arr);
 
             int processed = arr[i].pro;
             if (j >= 0) {
@@ -39,8 +45,30 @@ class Solution {
             ans[i] = Math.max(ans[i - 1], processed);
         }
 
-        // System.out.println(Arrays.toString(ans));
-
         return ans[n - 1];
+    }
+
+    int binarySearch(int start, int end, int val, Node[] arr) {
+
+        if (val < arr[0].end) return -1;
+
+        while(start < end) {
+            int mid = (start + end) / 2;
+
+            // System.out.println(start + " " + mid + " " + end + " " + val);
+            
+            if (arr[mid].end <= val && ( (mid + 1 <= end) && arr[mid + 1].end > val)) {
+                return mid;
+            } else if (arr[mid].end <= val) {
+                start = mid + 1;
+            } else if (val < arr[mid].end) {
+                end = mid - 1;
+            }
+        }
+
+        System.out.println("==========");
+
+        return start;
+        
     }
 }
