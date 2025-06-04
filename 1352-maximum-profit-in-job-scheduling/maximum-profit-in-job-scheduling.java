@@ -1,63 +1,46 @@
 class Solution {
 
     class Node {
-        int profit;
-        int startTime;
-        int endTime;
+        int start;
+        int end;
+        int pro;
         Node(int s, int e, int p) {
-            this.profit = p;
-            this.endTime = e;
-            this.startTime = s;
+            this.start = s;
+            this.end = e;
+            this.pro = p;
         }
     }
 
     public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
         int n = startTime.length;
-        Node[] dp = new Node[n];
-
-        List<Node> list = new ArrayList<>();
         
+        Node[] arr = new Node[n];
+        int[] ans = new int[n];
+
         for(int i = 0; i < n; i++) {
-            list.add(new Node(startTime[i], endTime[i], profit[i]));
+            Node node = new Node(startTime[i], endTime[i], profit[i]);
+            arr[i] = node;
         }
 
-        Collections.sort(list, (a, b) -> a.endTime - b.endTime);
-        
-        dp[0] = list.get(0);
+        Arrays.sort(arr, (a, b) -> Integer.compare(a.end, b.end));
+
+        ans[0] = arr[0].pro;
 
         for(int i = 1; i < n; i++) {
-            Node node = list.get(i);
             int j = i - 1;
-            int ans = 0;
+            while(j >= 0 && arr[j].end > arr[i].start) {
+                j--;
+            }
 
-            while(j >= 0) {
-                if (dp[j].endTime <= node.startTime) {
-                    ans = dp[j].profit + node.profit;
-                    break;
-                } else {
-                    j--;
-                }
+            int processed = arr[i].pro;
+            if (j >= 0) {
+                processed += ans[j];
             }
-            
-            if ( dp[i-1].profit >= ans) {
-                if (j < 0 && dp[i-1].profit < node.profit) {
-                    dp[i] = new Node(0, node.endTime, node.profit);
-                } else {
-                    dp[i] = dp[i-1];
-                }
-            } else {
-                if (j >= 0) {
-                    dp[i] = new Node(0, node.endTime, ans);
-                } else {
-                    dp[i] = new Node(0, node.endTime, node.profit);
-                }
-            }
+            ans[i] = Math.max(ans[i - 1], processed);
         }
 
-        // for(int i = 0; i < n; i++) {
-        //     System.out.println(dp[i].endTime + " " + dp[i].profit);
-        // }
+        // System.out.println(Arrays.toString(ans));
 
-        return dp[n-1].profit;
+        return ans[n - 1];
     }
 }
