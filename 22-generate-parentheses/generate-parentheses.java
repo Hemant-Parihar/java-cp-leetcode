@@ -20,6 +20,5 @@ class Solution {
             solve(n, count - 1, str.append(')'), ans);
             str.deleteCharAt(str.length() - 1);
         }
-
     }
 }
