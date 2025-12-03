@@ -1,21 +1,15 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        ArrayList<Pair<Integer, Integer>> arr = new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < nums.length; i++) {
-            arr.add(new Pair<>(nums[i], i));
-        }
-        Collections.sort(arr, (a, b) -> a.getKey() - b.getKey());
-        int s = 0;
-        int b = nums.length - 1;
-        while(s < b) {
-            if (arr.get(s).getKey() + arr.get(b).getKey() > target) {
-                b--;
-            } else if (arr.get(s).getKey() + arr.get(b).getKey() < target) {
-                s++;
+            int val = target - nums[i];
+            if (map.containsKey(val)) {
+                return new int[]{map.get(val), i};
             } else {
-                return new int[]{ arr.get(s).getValue(), arr.get(b).getValue() };
+                map.put(nums[i], i);
             }
         }
+
         return null;
     }
 }
