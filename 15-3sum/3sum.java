@@ -12,21 +12,21 @@ class Solution {
         int prev_i = Integer.MIN_VALUE;
         for(i = 0; i < n-2; i++) {
 
+            if (nums[i] > 0) break;
+
             if (prev_i == nums[i]) {
                 continue;
             }
 
-            if (nums[i] > 0) break;
-
             int prev_j = Integer.MIN_VALUE;
             for(j = i + 1; j < n -1; j++) {
 
-                if (prev_j == nums[j]) {
-                    continue;
-                }
-
                 if (nums[i] + nums[j] > 0 ) {
                     break;
+                }
+
+                if (prev_j == nums[j]) {
+                    continue;
                 }
 
                 int val = -(nums[i] + nums[j]);
