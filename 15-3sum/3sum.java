@@ -3,9 +3,6 @@ class Solution {
         int n = nums.length;
         Arrays.sort(nums);
         HashMap<Integer, Integer> map = new HashMap<>();
-
-        System.out.println(Arrays.toString(nums));
-
         for(int i = 0; i < n; i++) {
             map.put(nums[i], i);
         }
@@ -30,7 +27,7 @@ class Solution {
 
                 int val = -(nums[i] + nums[j]);
                 if (map.containsKey(val)) {
-                    // System.out.println("test " + nums[i] + num[j] + val);
+
                     int index = map.get(val);
                     if (index > j) {
                         ans.add(List.of(nums[i], nums[j], val));
