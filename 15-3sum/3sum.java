@@ -2,31 +2,42 @@ class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums);
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        System.out.println(Arrays.toString(nums));
+
+        for(int i = 0; i < n; i++) {
+            map.put(nums[i], i);
+        }
+
+        int i, j;
         List<List<Integer>> ans = new ArrayList<>();
 
         int prev_i = Integer.MIN_VALUE;
-        int prev_j = Integer.MIN_VALUE;
+        
+        for(i = 0; i < n-2; i++) {
+            
+            if (prev_i == nums[i]) {
+                continue;
+            }
 
-        for(int i = 0; i < n - 2; i++) {
+            int prev_j = Integer.MIN_VALUE;
+            for(j = i + 1; j < n -1; j++) {
 
-            if (nums[i] == prev_i) continue;
-
-            int j = i + 1;
-            int k = n - 1;
-
-            while(j < k) {
-                int val = nums[i] + nums[j] + nums[k];
-                if (val == 0) {
-                    ans.add(new ArrayList<>(List.of(nums[i], nums[j], nums[k])));
-                    j++;
-                    while(nums[j] == nums[j-1] && j < k) {
-                        j++;
-                    }
-                } else if (val < 0) {
-                    j++;
-                } else {
-                    k--;
+                if (prev_j == nums[j]) {
+                    continue;
                 }
+
+                int val = -(nums[i] + nums[j]);
+                if (map.containsKey(val)) {
+                    // System.out.println("test " + nums[i] + num[j] + val);
+                    int index = map.get(val);
+                    if (index > j) {
+                        ans.add(List.of(nums[i], nums[j], val));
+                    }
+                }
+
+                prev_j = nums[j];
             }
 
             prev_i = nums[i];
