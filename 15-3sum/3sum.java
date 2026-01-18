@@ -9,14 +9,14 @@ class Solution {
 
         int i, j;
         List<List<Integer>> ans = new ArrayList<>();
-
         int prev_i = Integer.MIN_VALUE;
-        
         for(i = 0; i < n-2; i++) {
-            
+
             if (prev_i == nums[i]) {
                 continue;
             }
+
+            if (nums[i] > 0) break;
 
             int prev_j = Integer.MIN_VALUE;
             for(j = i + 1; j < n -1; j++) {
@@ -25,7 +25,13 @@ class Solution {
                     continue;
                 }
 
+                if (nums[i] + nums[j] > 0 ) {
+                    break;
+                }
+
                 int val = -(nums[i] + nums[j]);
+                
+
                 if (map.containsKey(val)) {
 
                     int index = map.get(val);
