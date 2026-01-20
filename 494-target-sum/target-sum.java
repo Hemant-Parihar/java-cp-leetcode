@@ -1,17 +1,24 @@
 class Solution {
+    int total = 0;
+    int tar = 0;
     public int findTargetSumWays(int[] nums, int target) {
-        return count(0, nums, target, 0);
-    }
+        int n = nums.length;
 
-    int count(int i, int[] nums, int target, int sum) {
-        if (i == nums.length) {
-            if (sum == target) return 1;
-            return 0;
+        for(int i = 0; i < n; i++) {
+            total += nums[i];
         }
 
-        int ans = 0;
-        ans += count(i + 1, nums, target, sum + nums[i]);
-        ans += count(i + 1, nums, target, sum - nums[i]);
-        return ans;
+        tar = target;
+        return solve(n - 1, nums, 0);
+    }
+
+    int solve(int i, int[] nums, int sum) {
+        if (i < 0) {
+            int neg = total - sum;
+            if (sum - neg == tar) return 1;
+            else return 0;
+        }
+
+        return solve(i - 1, nums, sum + nums[i]) + solve(i - 1, nums, sum);
     }
 }
