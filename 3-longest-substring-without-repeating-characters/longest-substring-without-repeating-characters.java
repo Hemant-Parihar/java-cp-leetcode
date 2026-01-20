@@ -3,11 +3,10 @@ class Solution {
         int n = s.length();
         if (n == 0) return 0;
         int i = 0;
-        int j = 1;
+        int j = 0;
         int ans = 1;
 
         HashSet<Character> set = new HashSet<>();
-        set.add(s.charAt(0));
         
         while(j < n) {
             if (!set.contains(s.charAt(j))) {
@@ -20,7 +19,6 @@ class Solution {
                 }
             }
             ans = Math.max(ans, j - i);
-            // System.out.println(set);
         }
 
         return ans;
